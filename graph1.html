@@ -6,16 +6,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Sun Graph</title>
 		<link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/graph1/z_style.css">
     </head>
-    
+            <!--HOST COMMAND:  python3 -m http.server 8080 -->
     <body>
+		
 
-        <!-- ALL OF OUR BODY CONTENT GOES HERE -->
-        <!-- TO MAKE A NEW PAGE, CREATE A NEW HTML FILE -->
-        <!--HOST COMMAND:  python3 -m http.server --cgi 8080 -->
-        <!-- NORMAL COMMAND (NON MAC) : python -m SimpleHTTPServer 8080 -->
-		<h1>hello world!</h1>
+        <svg class="graph"> </svg>
 
-        <script src = "script.js"> </script>
+        <script src = "d3.min.js"></script>
+        <script src = "/graph1/script.js"> </script>
     </body>
 </html>

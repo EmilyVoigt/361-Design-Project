@@ -1,5 +1,14 @@
+:root{
+    /* CSS VARIABLES TO MAKE GRAPHS COHESIVE */
+    --background: #ffffff;
+    --text: #272727;
+    --yellow: #FFD12E;
+    --gray: #D9D9D9;
+}
+
+
 body{
-    background-color: green;
+    background-color: var(--background);
     height: 100%;
     width: 100%;
 }
