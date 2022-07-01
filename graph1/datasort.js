@@ -18,15 +18,4 @@ const getCsvData = async () => {
     console.log(csvData)
 })()
 
-
-
-// clean this up!
-
-// const jsondata = d3.csvParse(newdata, (d)=>{
-//     return {
-//         temp: +d.temp,
-//         humidity: +d.humidity,
-//         light: +d.light,
-//         uv: +d.UV
-//     }
-// })
+// TODO: clean this up!
