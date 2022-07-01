@@ -1,0 +1,21 @@
+body{
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+text.hourText{
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+path.sunLines{
+    fill: var(--yellow);
+    stroke: var(--yellow);
+    stroke-width: 4px;
+    stroke-opacity: 1;
+    fill-opacity: 0.5;
+}
+
+circle.lightPoint{
+    fill: var(--yellow);
+}
