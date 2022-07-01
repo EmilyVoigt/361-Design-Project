@@ -1,4 +1,4 @@
-console.log(" sun dial script loaded");
+// .log(" sun dial script loaded");
 
 //save width and height for easy access later on
 const h = 800; //svg height
@@ -10,7 +10,7 @@ let ticks = [2, 4, 6, 8, 10]; // one tick per hour of daylight
 //sample data
 let data = [];
 let hours = [];
-console.log(data.length)
+
 
 for (let i = 0; i < 24; i++) {
   hours.push(`${i}:00`);
@@ -20,10 +20,11 @@ for (let i = 0; i < 24; i++) {
 for (var i = 0; i < 1; i++){
     var point = {}
     //each feature will be a random number from 1-9
+    //this plots a random number to each hour 
     hours.forEach(f => point[f] = 4 + Math.random() * 4);
     data.push(point);
 }
-console.log(data);
+//console.log(data);
 
 const svg = d3.select("svg");
 svg.attr("width", w);
@@ -126,7 +127,7 @@ for (var i = 0; i < 1; i++) {
   let color = colors[i];
   let coordinates = getPointCoords(d);
 
-  console.group(coordinates);
+  // console.group(coordinates);
 
   const pointsGroup = svg.append("g").attr("class", "pointsGroup");
 
