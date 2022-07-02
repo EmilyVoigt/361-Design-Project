@@ -1,6 +1,6 @@
 layout: page
 title: "Classroom Points"
-permalink: /classroom-points
+permalink: /classroomPoints
 
 <!doctype html>
 <html lang="en">
