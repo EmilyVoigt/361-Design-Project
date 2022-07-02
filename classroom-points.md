@@ -8,20 +8,20 @@ permalink: /classroomPoints
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Sun Graph</title>
-		<link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="classroom-points/z_style.css">
+		<title>361 Design Project</title>
+		<link rel="stylesheet" href="/style.css">
     </head>
-            <!--HOST COMMAND:  python3 -m http.server 8080 -->
+    
     <body>
-        <svg class="classroom-points"> 
-            <image class="classroom-image" 
-                xlink:href="classroom-points/E5-classroom.jpg"
-                width="500"
-                height="375"></image>
-        </svg>
 
-        <script src = "d3.min.js"></script>
-        <script src = "classroom-points/script.js"> </script>
+        <!-- ALL OF OUR BODY CONTENT GOES HERE -->
+        <!-- TO MAKE A NEW PAGE, CREATE A NEW HTML FILE -->
+        <!--HOST COMMAND:  python3 -m http.server --cgi 8080 -->
+        <!-- NORMAL COMMAND (NON MAC) : python -m SimpleHTTPServer 8080 -->
+		<h1>hello world!</h1>
+
+        <a href = "classroom-points.html">graph 1 - sun dial </a>
+
+        <script src = "script.js"> </script>
     </body>
 </html>
