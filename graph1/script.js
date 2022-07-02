@@ -11,7 +11,6 @@ let ticks = [2, 4, 6, 8, 10]; // one tick per hour of daylight
 let data = [];
 let hours = [];
 
-
 for (let i = 0; i < 24; i++) {
   hours.push(`${i}:00`);
 }
@@ -24,7 +23,7 @@ for (var i = 0; i < 1; i++){
     hours.forEach(f => point[f] = 4 + Math.random() * 4);
     data.push(point);
 }
-//console.log(data);
+console.log(data);
 
 const svg = d3.select("svg");
 svg.attr("width", w);
@@ -32,10 +31,6 @@ svg.attr("height", h); //height of SVG tag is number of cities * 150px each
 
 const graphBase = svg.append("g").attr("class", "graphBase");
 const hoursGroup = svg.append("g").attr("class", "hoursGroup");
-
-//first, plot gridlines
-//next, plot axes
-// third, plot shape
 
 //now, we want to map our data values to radial dist from center of chart
 //use linear scale
@@ -48,16 +43,13 @@ const radialDist = d3
   .range([0, r - 50]); //set max range to radius / 2
 
 const getSvgAngle = (angle, pxDist) => {
-  //using pythagorean theorum to get x and y positions of each point
-  let x = Math.sin(angle) * pxDist;
+  let x = Math.sin(angle) * pxDist;   //using pythagorean theorum to get x and y positions of each point
   let y = Math.cos(angle) * pxDist;
-
   x = x + r; //move x start point to the middle of the graph
   y = y + r; //same for y
-
   return { x: x, y: y };
 };
-// setting up the graph skeleton
+
 //GRAPH SETUP
 ticks.forEach((tick) => {
   graphBase
@@ -83,7 +75,6 @@ hours.forEach((hour, i) => {
   let textPosition = getSvgAngle(angle, r - 25);
 
   const hourGroup = hoursGroup.append("g").attr("class", "hourGroup");
-
   hourGroup
     .append("line")
     .attr("x1", r) //start line at center
@@ -111,23 +102,24 @@ const line = d3
   .y((d) => d.y);
 let colors = ["yellow"];
 
+
 const getPointCoords = (data_point) => {
   let coords = [];
   hours.forEach((hour, i) => {
-    let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI;
-    let pxLength = radialDist(data_point[hour]);
+    let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI; 
+    let pxLength = radialDist(data_point[hour]); // this has to change 
     coords.push(getSvgAngle(angle, pxLength)); //we will have to change this once we get real data!
   });
 
   return coords;
 };
 
+
+//this will all have to be async
 for (var i = 0; i < 1; i++) {
   let d = data[i];
   let color = colors[i];
   let coordinates = getPointCoords(d);
-
-  // console.group(coordinates);
 
   const pointsGroup = svg.append("g").attr("class", "pointsGroup");
 
