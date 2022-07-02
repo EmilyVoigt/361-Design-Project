@@ -2,7 +2,6 @@ layout: page
 title: "TEST PAGE"
 permalink: /test
 
-<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -24,4 +23,4 @@ permalink: /test
 
         <script src = "script.js"> </script>
     </body>
-</html>
+
