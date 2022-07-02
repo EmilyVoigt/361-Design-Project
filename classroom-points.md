@@ -20,7 +20,7 @@ permalink: /classroomPoints
         <!-- NORMAL COMMAND (NON MAC) : python -m SimpleHTTPServer 8080 -->
 		<h1>hello world!</h1>
 
-        <a href = "classroom-points.html">graph 1 - sun dial </a>
+        <a href = "classroom-points.html">graph 1 - classroom points</a>
 
         <script src = "script.js"> </script>
     </body>
