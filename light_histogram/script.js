@@ -1,7 +1,7 @@
 import * as Plot from "@observablehq/plot";
 console.log("light histogram loaded");
 
-data = FileAttachment("inside_house.csv").csv({typed: true})
+data = FileAttachment("light_histogram/inside_house.csv").csv({typed: true})
 
 Plot.plot({
     y: {
