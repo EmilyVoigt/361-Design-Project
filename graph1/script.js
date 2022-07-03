@@ -5,7 +5,8 @@ const h = 800; //svg height
 const w = 800; //svg width
 const r = h / 2; //svg radius
 
-let ticks = [2, 4, 6, 8, 10]; // one tick per hour of daylight
+let ticks = [200, 400, 600, 800, 1000]; // one tick per hour of daylight
+//TODO: CHANGE THIS SCALE IN ACCORDANCE WITH CALIBRATION
 
 //sample data
 let data = [];
@@ -16,14 +17,21 @@ for (let i = 0; i < 24; i++) {
 }
 
 // //generate the data
-for (var i = 0; i < 1; i++){
-    var point = {}
-    //each feature will be a random number from 1-9
-    //this plots a random number to each hour 
-    hours.forEach(f => point[f] = 4 + Math.random() * 4);
-    data.push(point);
+for (var i = 0; i < 1; i++) {
+  var point = {};
+  //each feature will be a random number from 1-9
+  //this plots a random number to each hour
+  hours.forEach((f) => (point[f] = 4 + Math.random() * 4));
+  data.push(point);
 }
 console.log(data);
+
+// sunrise sunset times
+
+let sunTimes = [
+  { season: "summer", avgSunrise: 6.15, avgSunset: 8.5 },
+  { season: "winter", avgSunrise: 7.45, avgSunset: 5.15 },
+]; //TODO: add spring, fall suntimes
 
 const svg = d3.select("svg");
 svg.attr("width", w);
@@ -39,11 +47,11 @@ const hoursGroup = svg.append("g").attr("class", "hoursGroup");
 //FUNCTIONS
 const radialDist = d3
   .scaleLinear()
-  .domain([0, 10]) //our test values range 0 to 10, probably our actual values will be close
+  .domain([0, 1000]) //our test values range 0 to 10, probably our actual values will be close
   .range([0, r - 50]); //set max range to radius / 2
 
 const getSvgAngle = (angle, pxDist) => {
-  let x = Math.sin(angle) * pxDist;   //using pythagorean theorum to get x and y positions of each point
+  let x = Math.sin(angle) * pxDist; //using pythagorean theorum to get x and y positions of each point
   let y = Math.cos(angle) * pxDist;
   x = x + r; //move x start point to the middle of the graph
   y = y + r; //same for y
@@ -94,31 +102,33 @@ hours.forEach((hour, i) => {
 
 // now, lets plot the data
 
-//make a line function
-
 const line = d3
   .line()
   .x((d) => d.x)
   .y((d) => d.y);
-let colors = ["yellow"];
-
 
 const getPointCoords = (data_point) => {
   let coords = [];
+  //console.log(data_point);
   hours.forEach((hour, i) => {
-    let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI; 
-    let pxLength = radialDist(data_point[hour]); // this has to change 
+    let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI;
+    let pxLength = radialDist(data_point[i].avg); // this has to change
     coords.push(getSvgAngle(angle, pxLength)); //we will have to change this once we get real data!
   });
 
   return coords;
 };
 
-
 //this will all have to be async
-for (var i = 0; i < 1; i++) {
-  let d = data[i];
-  let color = colors[i];
+(async () => {
+  // get CSV data
+  let csvData = await getCsvData();
+  const hourAverages = dataHourAvg(csvData); //fill hourAvg array with daatpoints based on hour of measurment
+  console.log(hourAverages);
+
+ //  let d = data[0];
+  let d = hourAverages
+  let color = "yellow";
   let coordinates = getPointCoords(d);
 
   const pointsGroup = svg.append("g").attr("class", "pointsGroup");
@@ -144,4 +154,4 @@ for (var i = 0; i < 1; i++) {
     .attr("fill", color)
     .attr("stroke-opacity", 1)
     .attr("opacity", 0.5);
-}
+})();
