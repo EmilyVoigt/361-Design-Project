@@ -1,11 +1,9 @@
-// .log(" sun dial script loaded");
-
 //save width and height for easy access later on
 const h = 800; //svg height
 const w = 800; //svg width
 const r = h / 2; //svg radius
 
-let ticks = [200, 400, 600, 800, 1000]; // one tick per hour of daylight
+const ticks = [200, 400, 600, 800, 1000]; // one tick per hour of daylight
 //TODO: CHANGE THIS SCALE IN ACCORDANCE WITH CALIBRATION
 
 let hours = []; //store an array of 24 hours to populate graph 
@@ -13,17 +11,21 @@ for (let i = 0; i < 24; i++) {
   hours.push(`${i}:00`);
 }
 
+const avgTimes =  findAverageTime(summerData)
 // sunrise sunset times
 const sunTimes = [
-  { season: "summer", avgSunrise: 6.15, avgSunset: 20.5 },
-  { season: "winter", avgSunrise: 7.45, avgSunset: 17.15 },
+  { season: "summer", avgSunrise: {hour: avgTimes.riseTime.hour, minute: avgTimes.riseTime.minute}, avgSunset: {hour: avgTimes.setTime.hour, minute: avgTimes.setTime.minute} },
+  { season: "winter", avgSunrise: {hour: 7, minute: 45}, avgSunset: {hour: 5, minute: 15}},
 ]; //TODO: add spring, fall suntimes MAYBE use an API 
 
 const timeToFract = (time)=>{   //convert hour/minute time to fraction
-  let hours = Math.floor(time) //get base hours
-  let minsToFract = ((time - hours) * 100 / 60 )
+  //let hours = Math.floor(time.hour) //get base hours
+  //let minsToFract = ((time - hours) * 100 / 60 )
   //if we end up using a date API this is very easy to change 
-  const fract = hours + minsToFract
+  // const fract = hours + minsToFract
+
+  const minsToFract = time.minute / 60 
+  const fract = time.hour + minsToFract
   return fract
 }
 
@@ -40,9 +42,6 @@ const pieGenerator = (season) =>{
   // console.log({rise: riseAngle, set: setAngle})
   return {rise: riseAngle, set: setAngle}
 }
-
-// how do we get sun time angles? 
-
 
 
 const svg = d3.select("svg");
@@ -136,7 +135,7 @@ const getPointCoords = (data_point) => {
   // get CSV data
   let csvData = await getCsvData();
   const hourAverages = dataHourAvg(csvData); //fill hourAvg array with daatpoints based on hour of measurment
-  console.log(hourAverages);
+  // console.log(hourAverages);
 
   let d = hourAverages
   let color = "yellow";
