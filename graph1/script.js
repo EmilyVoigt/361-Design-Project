@@ -8,26 +8,13 @@ const r = h / 2; //svg radius
 let ticks = [200, 400, 600, 800, 1000]; // one tick per hour of daylight
 //TODO: CHANGE THIS SCALE IN ACCORDANCE WITH CALIBRATION
 
-//sample data
-let data = [];
-let hours = [];
-
+let hours = []; //store an array of 24 hours to populate graph 
 for (let i = 0; i < 24; i++) {
   hours.push(`${i}:00`);
 }
 
-// //generate the data
-for (var i = 0; i < 1; i++) {
-  var point = {};
-  //each feature will be a random number from 1-9
-  //this plots a random number to each hour
-  hours.forEach((f) => (point[f] = 4 + Math.random() * 4));
-  data.push(point);
-}
-console.log(data);
 
 // sunrise sunset times
-
 let sunTimes = [
   { season: "summer", avgSunrise: 6.15, avgSunset: 8.5 },
   { season: "winter", avgSunrise: 7.45, avgSunset: 5.15 },
@@ -37,8 +24,8 @@ const svg = d3.select("svg");
 svg.attr("width", w);
 svg.attr("height", h); //height of SVG tag is number of cities * 150px each
 
-const graphBase = svg.append("g").attr("class", "graphBase");
-const hoursGroup = svg.append("g").attr("class", "hoursGroup");
+const graphBase = svg.append("g").attr("class", "graphBase"); //radial graph lines group
+const hoursGroup = svg.append("g").attr("class", "hoursGroup"); //hours group
 
 //now, we want to map our data values to radial dist from center of chart
 //use linear scale
@@ -75,14 +62,14 @@ ticks.forEach((tick) => {
     .text(`${tick}`);
 });
 
-//now, we need the hour labels
+//HOUR LABELS
 hours.forEach((hour, i) => {
   let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI; //get the angle of each hour by diving 2PI by num of hours, multiplying by i
-  // subtract 2PI here to make jan start at the top
+  // subtract PI here to make 0:00 start at the top
   let position = getSvgAngle(angle, r - 50);
   let textPosition = getSvgAngle(angle, r - 25);
 
-  const hourGroup = hoursGroup.append("g").attr("class", "hourGroup");
+  const hourGroup = hoursGroup.append("g").attr("class", "hourGroup"); 
   hourGroup
     .append("line")
     .attr("x1", r) //start line at center
@@ -100,8 +87,7 @@ hours.forEach((hour, i) => {
     .text(hour);
 });
 
-// now, lets plot the data
-
+//DATA 
 const line = d3
   .line()
   .x((d) => d.x)
@@ -109,7 +95,6 @@ const line = d3
 
 const getPointCoords = (data_point) => {
   let coords = [];
-  //console.log(data_point);
   hours.forEach((hour, i) => {
     let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI;
     let pxLength = radialDist(data_point[i].avg); // this has to change
