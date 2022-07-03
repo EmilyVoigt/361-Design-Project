@@ -2,9 +2,6 @@
 // const summerData = julyData.concat(augustData, juneData.slice(20, 30), septemberData.slice(0, 22))
 const summerData = [...juneData.slice(20, 30), ...julyData, ...augustData, ...septemberData.slice(0, 22)];
 
-// date: "Tue, Jun 21"
-// sunrise: "5:39:34 am"
-// sunset: "9:08:05 pm" 
 const stringTimeToArray = (stringTime)=>{
     let newTime = stringTime.split(":")
     let lastSplit = newTime[2].split(' ')
@@ -47,9 +44,6 @@ const findAverageTime = (seasonData)=>{
 
     const setHour = Math.floor(setAvgTime / 60)
     const setMin = setAvgTime % 60
-
-    // console.log( "hour: "+ riseHour, "min: "+ riseMin)
-    // console.log( setHour, setMin)
     return {riseTime : {hour: riseHour, minute: riseMin}, setTime: {hour: setHour, minute: setMin}}
 }
 

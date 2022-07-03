@@ -24,43 +24,8 @@ const sunTimes = [
   },
   {
     season: "winter",
-    end: { hour: 7, minute: 45 },
+    end: { hour: 7, minute: 45 }, //TODO: get winter data
     start: { hour: 5, minute: 15 },
-  },
-]; //TODO: add spring, fall suntimes MAYBE use an API
-
-const classTimes = [
-  {
-    morning: { start: { hour: 8, minute: 30 }, end: { hour: 12, minute: 00 } },
-    afternoon: {
-      start: { hour: 13, minute: 30 },
-      end: { hour: 15, minute: 30 },
-    },
-  },
-  {
-    morning: { start: { hour: 8, minute: 30 }, end: { hour: 12, minute: 30 } },
-    afternoon: {
-      start: { hour: 13, minute: 30 },
-      end: { hour: 16, minute: 00 },
-    },
-  },
-  {
-    morning: { start: { hour: 8, minute: 30 }, end: { hour: 11, minute: 30 } },
-    afternoon: {
-      start: { hour: 12, minute: 30 },
-      end: { hour: 16, minute: 00 },
-    },
-  },
-  {
-    morning: { start: { hour: 9, minute: 00 }, end: { hour: 12, minute: 30 } },
-    afternoon: {
-      start: { hour: 13, minute: 30 },
-      end: { hour: 15, minute: 00 },
-    },
-  },
-  {
-    morning: { start: { hour: 0, minute: 00 }, end: { hour: 0, minute: 00 } },
-    afternoon: { start: { hour: 0, minute: 00 }, end: { hour: 0, minute: 00 } },
   },
 ];
 
@@ -228,17 +193,17 @@ const getLinePointCoords = (dataSet)=>{
     }
   })
 
+  //handle case if less co-ords than needed, add position 0 to end
+  if (coords.length < maxPoints){
+    coords.push(getSvgAngle(0, 0))
+  }
+
   //add starting data point to end of array to close the stroke
   coords.push(coords[0])
 
   return coords
 }
 
-//if theres 2 points at the same time, take the more recent one
-
-
-//data collection and processing is async
-(async () => {
   // draw pie lines for night hours
   svg
     .append("path")
@@ -256,6 +221,9 @@ const getLinePointCoords = (dataSet)=>{
     .attr("fill", "grey")
     .attr("stroke", "none");
 
+
+//data collection and processing is async
+(async () => {
   // get CSV data
   let csvData = await getCsvData();
   let d = dataHourAvg(csvData); 
@@ -286,4 +254,9 @@ const getLinePointCoords = (dataSet)=>{
     .attr("fill", "yellow")
     .attr("stroke-opacity", 1)
     .attr("opacity", 0.5);
+
+
+  // not to brag, but I'm definitely going to add some data hovers 
+
+
 })();

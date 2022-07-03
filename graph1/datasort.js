@@ -36,7 +36,8 @@ const dataHourAvg = (values) => {
 
 // get CSV data, return as an array of objects
 const getCsvData = () => {
-  const csvData = d3.csv("../data/outside_sun_campus.csv", function (d, i) {
+  const csvData = d3.csv("../data/fake_avg_day.csv", function (d, i) {
+     // TODO: change path to match our actual data file
     return {
       temp: +d.temp,
       humidity: +d.humidity,
