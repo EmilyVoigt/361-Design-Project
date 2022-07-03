@@ -1,6 +1,8 @@
 //summer is june 21 to spetember 22
 
 //webscraper script to get sunrise sunset data
+// https://sunrise-sunset.org/search?location=kitchener 
+
 // let days = document.querySelectorAll("tr.day");
 // let formattedDays = [];
 

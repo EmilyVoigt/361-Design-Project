@@ -1,5 +1,4 @@
-const testTime = new Date(1656683511185);
-let csvData = null; //store all csv data
+const testTime = 1656683511185; //9am 
 
 //function to average CSV light data by hour for radial graph
 //this can be changed very easily to be by month if needed for other graohs
@@ -37,13 +36,13 @@ const dataHourAvg = (values) => {
 
 // get CSV data, return as an array of objects
 const getCsvData = () => {
-  const csvData = d3.csv("../data/outside_sun_campus.csv", function (d) {
+  const csvData = d3.csv("../data/outside_sun_campus.csv", function (d, i) {
     return {
       temp: +d.temp,
       humidity: +d.humidity,
       light: +d.light,
       uv: +d.uv,
-      time: new Date(1656683511185),
+      time: new Date(testTime + (600000*i)), // add 10minutes to each time
       // time: new Date(+d.time)
       //TODO: add time
     };
@@ -51,4 +50,3 @@ const getCsvData = () => {
   return csvData;
 };
 
-// .forEach(d,i) - d stores value, i stores index

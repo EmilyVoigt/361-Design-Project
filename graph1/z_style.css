@@ -6,6 +6,13 @@ body{
 text.hourText{
     text-anchor: middle;
     dominant-baseline: middle;
+    font-size: 14px;
+}
+
+text.tickLabel{
+    font-size: 12px;
+    transform: translate(2px, 24px);
+    font-weight: 600;
 }
 
 path.sunLines{
@@ -17,7 +24,11 @@ path.sunLines{
 }
 
 circle.lightPoint{
-    fill: var(--yellow);
+    fill: var(--orange);
+}
+
+circle.lightPoint:hover{
+    cursor:pointer;
 }
 
 path.sunArc{
@@ -25,3 +36,22 @@ path.sunArc{
     opacity: 0.3;
     fill: var(--lightgrey);
 }
+
+path.classArc{
+    transform: translate(400px, 400px);
+    opacity: 0.5;
+    fill: var(--lavender);
+    transition: all 0.2s ease-in-out;
+}
+
+svg{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+h1{
+    font-size: 16px;
+    text-align: center;
+}
+

@@ -48,8 +48,8 @@ const findAverageTime = (seasonData)=>{
     const setHour = Math.floor(setAvgTime / 60)
     const setMin = setAvgTime % 60
 
-    console.log( "hour: "+ riseHour, "min: "+ riseMin)
-    console.log( setHour, setMin)
+    // console.log( "hour: "+ riseHour, "min: "+ riseMin)
+    // console.log( setHour, setMin)
     return {riseTime : {hour: riseHour, minute: riseMin}, setTime: {hour: setHour, minute: setMin}}
 }
 

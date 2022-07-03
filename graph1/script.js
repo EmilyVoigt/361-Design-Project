@@ -6,43 +6,88 @@ const r = h / 2; //svg radius
 const ticks = [200, 400, 600, 800, 1000]; // one tick per hour of daylight
 //TODO: CHANGE THIS SCALE IN ACCORDANCE WITH CALIBRATION
 
-let hours = []; //store an array of 24 hours to populate graph 
+let hours = []; //store an array of 24 hours to populate graph
 for (let i = 0; i < 24; i++) {
   hours.push(`${i}:00`);
 }
 
-const avgTimes =  findAverageTime(summerData)
+const avgTimes = findAverageTime(summerData);
 // sunrise sunset times
 const sunTimes = [
-  { season: "summer", avgSunrise: {hour: avgTimes.riseTime.hour, minute: avgTimes.riseTime.minute}, avgSunset: {hour: avgTimes.setTime.hour, minute: avgTimes.setTime.minute} },
-  { season: "winter", avgSunrise: {hour: 7, minute: 45}, avgSunset: {hour: 5, minute: 15}},
-]; //TODO: add spring, fall suntimes MAYBE use an API 
+  {
+    season: "summer",
+    end: {
+      hour: avgTimes.riseTime.hour,
+      minute: avgTimes.riseTime.minute,
+    },
+    start: { hour: avgTimes.setTime.hour, minute: avgTimes.setTime.minute },
+  },
+  {
+    season: "winter",
+    end: { hour: 7, minute: 45 },
+    start: { hour: 5, minute: 15 },
+  },
+]; //TODO: add spring, fall suntimes MAYBE use an API
 
-const timeToFract = (time)=>{   //convert hour/minute time to fraction
-  //let hours = Math.floor(time.hour) //get base hours
-  //let minsToFract = ((time - hours) * 100 / 60 )
-  //if we end up using a date API this is very easy to change 
-  // const fract = hours + minsToFract
+const classTimes = [
+  {
+    morning: { start: { hour: 8, minute: 30 }, end: { hour: 12, minute: 00 } },
+    afternoon: {
+      start: { hour: 13, minute: 30 },
+      end: { hour: 15, minute: 30 },
+    },
+  },
+  {
+    morning: { start: { hour: 8, minute: 30 }, end: { hour: 12, minute: 30 } },
+    afternoon: {
+      start: { hour: 13, minute: 30 },
+      end: { hour: 16, minute: 00 },
+    },
+  },
+  {
+    morning: { start: { hour: 8, minute: 30 }, end: { hour: 11, minute: 30 } },
+    afternoon: {
+      start: { hour: 12, minute: 30 },
+      end: { hour: 16, minute: 00 },
+    },
+  },
+  {
+    morning: { start: { hour: 9, minute: 00 }, end: { hour: 12, minute: 30 } },
+    afternoon: {
+      start: { hour: 13, minute: 30 },
+      end: { hour: 15, minute: 00 },
+    },
+  },
+  {
+    morning: { start: { hour: 0, minute: 00 }, end: { hour: 0, minute: 00 } },
+    afternoon: { start: { hour: 0, minute: 00 }, end: { hour: 0, minute: 00 } },
+  },
+];
 
-  const minsToFract = time.minute / 60 
-  const fract = time.hour + minsToFract
-  return fract
-}
+const timeToFract = (time) => {
+  //convert hour/minute time to fraction
+  const minsToFract = time.minute / 60;
+  const fract = time.hour + minsToFract;
+  return fract;
+};
 
-const pieGenerator = (season) =>{
-  //convert time to fractions: 
-  let setFract = timeToFract(season.avgSunset)
-  let riseFract = timeToFract(season.avgSunrise)
+const pieGenerator = (period) => {
+  //convert time to fractions:
+  let startFract = timeToFract(period.start);
+  let endFract = timeToFract(period.end);
 
- // console.log(setFract, riseFract)
+  let startAngle = 0;
+  if (startFract > endFract) {
+    startAngle = -(Math.PI * 2 - ((2 * Math.PI) / hours.length) * startFract);
+  } else {
+    startAngle = ((2 * Math.PI) / hours.length) * startFract;
+  }
 
-  let riseAngle = (((2 * Math.PI) / hours.length) * riseFract); 
-  let setAngle = -((Math.PI * 2) - (((2 * Math.PI) / hours.length) * setFract)); 
+  let endAngle = ((2 * Math.PI) / hours.length) * endFract;
 
   // console.log({rise: riseAngle, set: setAngle})
-  return {rise: riseAngle, set: setAngle}
-}
-
+  return { start: startAngle, end: endAngle };
+};
 
 const svg = d3.select("svg");
 svg.attr("width", w);
@@ -70,21 +115,6 @@ const getSvgAngle = (angle, pxDist) => {
 };
 
 //GRAPH SETUP
-ticks.forEach((tick) => {
-  graphBase
-    .append("circle") //append a circle to the SVG
-    .attr("cx", r) //position of circle center x
-    .attr("cy", r) //position of circle center y
-    .attr("stroke", "gray") //TODO: move this to css
-    .attr("fill", "none")
-    .attr("r", radialDist(tick)); //create the circle using our radial scale
-
-  graphBase
-    .append("text")
-    .attr("x", r)
-    .attr("y", r - radialDist(tick) - 10) // r - dist because we need biggest on outside
-    .text(`${tick}`);
-});
 
 //HOUR LABELS
 hours.forEach((hour, i) => {
@@ -93,7 +123,7 @@ hours.forEach((hour, i) => {
   let position = getSvgAngle(angle, r - 50);
   let textPosition = getSvgAngle(angle, r - 25);
 
-  const hourGroup = hoursGroup.append("g").attr("class", "hourGroup"); 
+  const hourGroup = hoursGroup.append("g").attr("class", "hourGroup");
   hourGroup
     .append("line")
     .attr("x1", r) //start line at center
@@ -111,12 +141,63 @@ hours.forEach((hour, i) => {
     .text(hour);
 });
 
-//DATA 
+ticks.forEach((tick) => {
+  graphBase
+    .append("circle") //append a circle to the SVG
+    .attr("cx", r) //position of circle center x
+    .attr("cy", r) //position of circle center y
+    .attr("stroke", "gray") //TODO: move this to css
+    .attr("fill", "none")
+    .attr("r", radialDist(tick)); //create the circle using our radial scale
+
+  graphBase
+    .append("text")
+    .attr("class", "tickLabel")
+    .attr("x", r)
+    .attr("y", r - radialDist(tick) - 10) // r - dist because we need biggest on outside
+    .text(`${tick}`);
+});
+
+//DATA
 const line = d3
   .line()
   .x((d) => d.x)
   .y((d) => d.y);
 
+//reusable function to draw class time pie slices
+const drawClassPie = (time) => {
+  svg
+    .append("path")
+    .attr("class", "classArc")
+    .attr(
+      "d",
+      d3
+        .arc()
+        .innerRadius(0) // leave
+        .outerRadius(r - 50) //leave
+        .startAngle(pieGenerator(time).start) //start arc when sun sets
+        .endAngle(pieGenerator(time).end) //end arc when sun rises
+    )
+    .attr("fill", "pink")
+    .attr("stroke", "none");
+};
+
+let curClassTime = classTimes[0];
+const selectTag = document.querySelector("select");
+drawClassPie(curClassTime.morning); //draw initial class pies
+drawClassPie(curClassTime.afternoon);
+
+selectTag.addEventListener("input", () => {
+  curClassTime = classTimes[selectTag.value];
+
+  d3.selectAll('.classArc').remove() //remove prev. class pies
+
+  drawClassPie(curClassTime.morning); //add new class pies
+  drawClassPie(curClassTime.afternoon);
+});
+
+
+//get point coords using average data for points
 const getPointCoords = (data_point) => {
   let coords = [];
   hours.forEach((hour, i) => {
@@ -128,21 +209,62 @@ const getPointCoords = (data_point) => {
   return coords;
 };
 
+
+//get co-ords for actual line directly from our CSV data
+const getLinePointCoords = (dataSet)=>{
+  let coords = []
+  const maxPoints = (24 * 60 )/10 //currently, we're storing data at 10 min incriments
+  //TODO: UPDATE THIS AS WE GET OUR REAL TIME INCRIMENT
+  dataSet.forEach(point =>{
+    const pointTimeFract = point.time.getHours() + (point.time.getMinutes()/60) 
+    let angle = -(((2 * Math.PI) / hours.length) * pointTimeFract) - Math.PI;
+    let pxLength = radialDist(point.light)
+    if (coords.length < maxPoints){
+      coords.push(getSvgAngle(angle, pxLength))
+    } else {
+      //handle case of if current time has already been tracked, overwrite with new time
+      coords.shift()
+      coords.push(getSvgAngle(angle, pxLength))
+    }
+  })
+
+  //add starting data point to end of array to close the stroke
+  coords.push(coords[0])
+
+  return coords
+}
+
+//if theres 2 points at the same time, take the more recent one
+
+
 //data collection and processing is async
 (async () => {
+  // draw pie lines for night hours
+  svg
+    .append("path")
+    .attr("class", "sunArc")
+    .attr(
+      "d",
+      d3
+        .arc()
+        .innerRadius(0) // leave
+        .outerRadius(r - 50) //leave
+        .startAngle(pieGenerator(sunTimes[0]).start) //start arc when sun sets
+        .endAngle(pieGenerator(sunTimes[0]).end) //end arc when sun rises
+      // .startAngle(0)
+    )
+    .attr("fill", "grey")
+    .attr("stroke", "none");
 
-  pieGenerator(sunTimes[0])
   // get CSV data
   let csvData = await getCsvData();
-  const hourAverages = dataHourAvg(csvData); //fill hourAvg array with daatpoints based on hour of measurment
-  // console.log(hourAverages);
-
-  let d = hourAverages
-  let color = "yellow";
+  let d = dataHourAvg(csvData); 
   let coordinates = getPointCoords(d);
+  let coordinates2 = getLinePointCoords(csvData);
 
   const pointsGroup = svg.append("g").attr("class", "pointsGroup");
 
+  //put points on each hour for average time 
   coordinates.forEach((coord) => {
     pointsGroup
       .append("circle")
@@ -150,35 +272,18 @@ const getPointCoords = (data_point) => {
       .attr("cx", coord.x)
       .attr("cy", coord.y)
       .attr("r", 4)
-      .attr("fill", "yellow");
+      .attr("fill", "orange");
   });
 
   //draw the path element
   svg
     .append("path")
-    .datum(coordinates)
+    .datum(coordinates2)
     .attr("d", line)
     .attr("class", "sunLines")
     .attr("stroke-width", 3)
-    .attr("stroke", color)
-    .attr("fill", color)
+    .attr("stroke", "yellow")
+    .attr("fill", "yellow")
     .attr("stroke-opacity", 1)
     .attr("opacity", 0.5);
-
-
-  // draw pie lines for night hours 
-  svg
-    .append("path")
-    .attr("class", "sunArc")
-    .attr("d", d3.arc()
-      .innerRadius(0) // leave
-      .outerRadius(r - 50) //leave 
-      .startAngle(pieGenerator(sunTimes[0]).set) //start arc when sun sets
-      .endAngle( pieGenerator(sunTimes[0]).rise) //end arc when sun rises 
-        // .startAngle(0)
-      )
-      .attr("fill", "grey")
-      .attr("stroke", "none")
-
-
 })();
