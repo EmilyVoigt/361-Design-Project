@@ -147,6 +147,7 @@ const drawClassPie = (time) => {
     .attr("stroke", "none");
 };
 
+//update class pie times in accordnace with selection
 let curClassTime = classTimes[0];
 const selectTag = document.querySelector("select");
 drawClassPie(curClassTime.morning); //draw initial class pies
@@ -154,13 +155,10 @@ drawClassPie(curClassTime.afternoon);
 
 selectTag.addEventListener("input", () => {
   curClassTime = classTimes[selectTag.value];
-
-  d3.selectAll('.classArc').remove() //remove prev. class pies
-
+  d3.selectAll(".classArc").remove(); //remove prev. class pies
   drawClassPie(curClassTime.morning); //add new class pies
   drawClassPie(curClassTime.afternoon);
 });
-
 
 //get point coords using average data for points
 const getPointCoords = (data_point) => {
@@ -168,83 +166,75 @@ const getPointCoords = (data_point) => {
   hours.forEach((hour, i) => {
     let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI;
     let pxLength = radialDist(data_point[i].avg); // this has to change
-    coords.push(getSvgAngle(angle, pxLength)); //we will have to change this once we get real data!
+    let coordPos = getSvgAngle(angle, pxLength)
+    coords.push({x: coordPos.x, y:coordPos.y, value: data_point[i].avg}); //we will have to change this once we get real data!
   });
 
   return coords;
 };
 
-
 //get co-ords for actual line directly from our CSV data
-const getLinePointCoords = (dataSet)=>{
-  let coords = []
-  const maxPoints = (24 * 60 )/10 //currently, we're storing data at 10 min incriments
+const getLinePointCoords = (dataSet) => {
+  let coords = [];
+  const maxPoints = (24 * 60) / 10; //currently, we're storing data at 10 min incriments
   //TODO: UPDATE THIS AS WE GET OUR REAL TIME INCRIMENT
-  dataSet.forEach(point =>{
-    const pointTimeFract = point.time.getHours() + (point.time.getMinutes()/60) 
+  dataSet.forEach((point) => {
+    const pointTimeFract = point.time.getHours() + point.time.getMinutes() / 60;
     let angle = -(((2 * Math.PI) / hours.length) * pointTimeFract) - Math.PI;
-    let pxLength = radialDist(point.light)
-    if (coords.length < maxPoints){
-      coords.push(getSvgAngle(angle, pxLength))
+    let pxLength = radialDist(point.light);
+    let coordPos = getSvgAngle(angle, pxLength)
+    if (coords.length < maxPoints) {
+      coords.push({x: coordPos.x, y:coordPos.y, value: point.light});
     } else {
       //handle case of if current time has already been tracked, overwrite with new time
-      coords.shift()
-      coords.push(getSvgAngle(angle, pxLength))
+      coords.shift();
+      coords.push({x: coordPos.x, y:coordPos.y, value: point.light});
     }
-  })
-
+  });
   //handle case if less co-ords than needed, add position 0 to end
-  if (coords.length < maxPoints){
-    coords.push(getSvgAngle(0, 0))
+  if (coords.length < maxPoints) {
+    coords.push(getSvgAngle(0, 0));
   }
-
   //add starting data point to end of array to close the stroke
-  coords.push(coords[0])
+  coords.push(coords[0]);
+  return coords;
+};
 
-  return coords
-}
+// draw pie lines for night hours
+svg
+  .append("path")
+  .attr("class", "sunArc")
+  .attr(
+    "d",
+    d3
+      .arc()
+      .innerRadius(0) // leave
+      .outerRadius(r - 50) //leave
+      .startAngle(pieGenerator(sunTimes[0]).start) //start arc when sun sets
+      .endAngle(pieGenerator(sunTimes[0]).end) //end arc when sun rises
+    // .startAngle(0)
+  )
+  .attr("fill", "grey")
+  .attr("stroke", "none");
 
-  // draw pie lines for night hours
-  svg
-    .append("path")
-    .attr("class", "sunArc")
-    .attr(
-      "d",
-      d3
-        .arc()
-        .innerRadius(0) // leave
-        .outerRadius(r - 50) //leave
-        .startAngle(pieGenerator(sunTimes[0]).start) //start arc when sun sets
-        .endAngle(pieGenerator(sunTimes[0]).end) //end arc when sun rises
-      // .startAngle(0)
-    )
-    .attr("fill", "grey")
-    .attr("stroke", "none");
+//create a div that we can use for our tooltip
 
+var tooltip = d3
+  .select("body")
+  .append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
 
 //data collection and processing is async
 (async () => {
   // get CSV data
   let csvData = await getCsvData();
-  let d = dataHourAvg(csvData); 
+  let d = dataHourAvg(csvData);
   let coordinates = getPointCoords(d);
   let coordinates2 = getLinePointCoords(csvData);
 
-  const pointsGroup = svg.append("g").attr("class", "pointsGroup");
-
-  //put points on each hour for average time 
-  coordinates.forEach((coord) => {
-    pointsGroup
-      .append("circle")
-      .attr("class", "lightPoint")
-      .attr("cx", coord.x)
-      .attr("cy", coord.y)
-      .attr("r", 4)
-      .attr("fill", "orange");
-  });
-
-  //draw the path element
-  svg
+    //draw the path element
+    svg
     .append("path")
     .datum(coordinates2)
     .attr("d", line)
@@ -255,8 +245,35 @@ const getLinePointCoords = (dataSet)=>{
     .attr("stroke-opacity", 1)
     .attr("opacity", 0.5);
 
+  const pointsGroup = svg.append("g").attr("class", "pointsGroup");
 
-  // not to brag, but I'm definitely going to add some data hovers 
+  pointsGroup
+    .selectAll("circle")
+    .data(coordinates)
+    .enter()
+    .append("circle")
+    .attr("class", "lightPoint")
+    .attr("cx", (d, i) => {
+      return d.x;
+    })
+    .attr("cy", (d, i) => {
+      return d.y;
+    })
+    .attr("r", 4)
+    .attr("fill", "orange")
+    //add hovers
+    .on("mouseover", (event, d) => {
+      // d3.select(this).transition().duration("50").attr("opacity", "0.3");
+      let toolTipNum = Math.floor(d.value)
+      tooltip.html("average light level: " + toolTipNum.toString() + " lux") 
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 15) + "px");
 
+      tooltip.transition().duration("50").style("opacity", "1")
+    })
+    .on("mouseout", function (d, i) {
+      // d3.select(this).transition().duration("50").attr("opacity", "1");
+      tooltip.transition().duration("50").style("opacity", "0")
+    })
 
 })();
