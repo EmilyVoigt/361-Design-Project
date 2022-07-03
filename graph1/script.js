@@ -13,12 +13,37 @@ for (let i = 0; i < 24; i++) {
   hours.push(`${i}:00`);
 }
 
-
 // sunrise sunset times
-let sunTimes = [
-  { season: "summer", avgSunrise: 6.15, avgSunset: 8.5 },
-  { season: "winter", avgSunrise: 7.45, avgSunset: 5.15 },
-]; //TODO: add spring, fall suntimes
+const sunTimes = [
+  { season: "summer", avgSunrise: 6.15, avgSunset: 20.5 },
+  { season: "winter", avgSunrise: 7.45, avgSunset: 17.15 },
+]; //TODO: add spring, fall suntimes MAYBE use an API 
+
+const timeToFract = (time)=>{   //convert hour/minute time to fraction
+  let hours = Math.floor(time) //get base hours
+  let minsToFract = ((time - hours) * 100 / 60 )
+  //if we end up using a date API this is very easy to change 
+  const fract = hours + minsToFract
+  return fract
+}
+
+const pieGenerator = (season) =>{
+  //convert time to fractions: 
+  let setFract = timeToFract(season.avgSunset)
+  let riseFract = timeToFract(season.avgSunrise)
+
+ // console.log(setFract, riseFract)
+
+  let riseAngle = (((2 * Math.PI) / hours.length) * riseFract); 
+  let setAngle = -((Math.PI * 2) - (((2 * Math.PI) / hours.length) * setFract)); 
+
+  // console.log({rise: riseAngle, set: setAngle})
+  return {rise: riseAngle, set: setAngle}
+}
+
+// how do we get sun time angles? 
+
+
 
 const svg = d3.select("svg");
 svg.attr("width", w);
@@ -104,14 +129,15 @@ const getPointCoords = (data_point) => {
   return coords;
 };
 
-//this will all have to be async
+//data collection and processing is async
 (async () => {
+
+  pieGenerator(sunTimes[0])
   // get CSV data
   let csvData = await getCsvData();
   const hourAverages = dataHourAvg(csvData); //fill hourAvg array with daatpoints based on hour of measurment
   console.log(hourAverages);
 
- //  let d = data[0];
   let d = hourAverages
   let color = "yellow";
   let coordinates = getPointCoords(d);
@@ -139,4 +165,21 @@ const getPointCoords = (data_point) => {
     .attr("fill", color)
     .attr("stroke-opacity", 1)
     .attr("opacity", 0.5);
+
+
+  // draw pie lines for night hours 
+  svg
+    .append("path")
+    .attr("class", "sunArc")
+    .attr("d", d3.arc()
+      .innerRadius(0) // leave
+      .outerRadius(r - 50) //leave 
+      .startAngle(pieGenerator(sunTimes[0]).set) //start arc when sun sets
+      .endAngle( pieGenerator(sunTimes[0]).rise) //end arc when sun rises 
+        // .startAngle(0)
+      )
+      .attr("fill", "grey")
+      .attr("stroke", "none")
+
+
 })();

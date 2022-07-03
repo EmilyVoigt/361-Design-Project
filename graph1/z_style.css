@@ -19,3 +19,9 @@ path.sunLines{
 circle.lightPoint{
     fill: var(--yellow);
 }
+
+path.sunArc{
+    transform: translate(400px, 400px);
+    opacity: 0.3;
+    fill: var(--lightgrey);
+}
