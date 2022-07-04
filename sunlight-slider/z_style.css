@@ -1,0 +1,8 @@
+text {
+    font-family: Arial, Helvetica, sans-serif;
+    fill: var(--text);
+}
+
+.title {
+    text-anchor: middle;
+}

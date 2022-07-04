@@ -1,0 +1,82 @@
+body{
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+text.hourText{
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font-size: 14px;
+}
+
+text.tickLabel{
+    font-size: 12px;
+    transform: translate(2px, 24px);
+    font-weight: 600;
+}
+
+path.sunLines{
+    fill: var(--yellow);
+    stroke: var(--yellow);
+    stroke-width: 4px;
+    stroke-opacity: 1;
+    fill-opacity: 0.5;
+}
+
+circle.lightPoint{
+    fill: var(--orange);
+    z-index: 200;
+    padding: 10px;
+}
+
+circle.lightPoint:hover{
+    cursor:pointer;
+}
+
+path.sunArc{
+    transform: translate(400px, 400px);
+    opacity: 0.3;
+    fill: var(--lightgrey);
+}
+
+path.classArc{
+    transform: translate(400px, 400px);
+    opacity: 0.5;
+    fill: var(--lavender);
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+}
+
+svg{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+h1{
+    font-size: 16px;
+    text-align: center;
+}
+
+
+.tooltip{
+    background-color: var(--background);
+
+    position: absolute;
+    text-align: center;
+    padding: .5rem;
+    color: var(--text);
+    border-radius: 8px;
+    pointer-events: none;
+    font-size: 12px;
+    border: 1px solid var(--text);
+
+}
+
+select{
+    z-index: 20;
+    cursor: pointer;
+    top: 20px;
+    left: 20px;
+    position: fixed;
+}

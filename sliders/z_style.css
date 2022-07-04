@@ -1,0 +1,23 @@
+text {
+    font-family: Arial, Helvetica, sans-serif;
+    fill: var(--text);
+    stroke: transparent;
+}
+
+.title {
+    text-anchor: middle;
+}
+
+.slider {
+    stroke: var(--text);
+    fill: transparent;
+}
+
+.ideal-range {
+    stroke: transparent;
+    fill: var(--green);
+}
+
+.pointer {
+    fill: var(--text);
+}
