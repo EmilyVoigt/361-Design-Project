@@ -1,11 +1,11 @@
 console.log("classroom points diagram loaded");
 
 // width and height of image
-const width = 500;
-const height = 375;
+const width = 1000;
+const height = 750;
 
 // some other dimensions
-const pointWidth = 25;
+const pointWidth = 40;
 const descOffset = 8;
 
 // coordinates of pointers to be scaled
