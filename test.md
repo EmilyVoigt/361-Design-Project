@@ -1,11 +1,14 @@
-<!doctype html>
+layout: page
+title: "TEST PAGE"
+permalink: /test
+
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>361 Design Project</title>
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="/style.css">
     </head>
     
     <body>
@@ -16,13 +19,8 @@
         <!-- NORMAL COMMAND (NON MAC) : python -m SimpleHTTPServer 8080 -->
 		<h1>hello world!</h1>
 
-        <a href = "graph1.html">graph 1 - sun dial</a><br/>
-        <a href="classroom-points.html">points on classroom map</a><br/>
-        <a href="student-map.html">points on student map</a><br/>
-        <a href="sliders.html">temp and humidity sliders</a><br/>
-        <a href="sunlight-slider.html">sunlight hours slider</a><br/>
-        <a href="https://emilyvoigt.github.io/361-Design-Project/light_histogram.html">Light Histogram</a><br>
+        <a href = "graph1.html">graph 1 - sun dial </a>
 
         <script src = "script.js"> </script>
     </body>
-</html>
+
