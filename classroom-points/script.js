@@ -1,8 +1,8 @@
 console.log("classroom points diagram loaded");
 
 // width and height of image
-const width = 1000;
-const height = 750;
+const width = 800;
+const height = 600;
 
 // some other dimensions
 const pointWidth = 40;
