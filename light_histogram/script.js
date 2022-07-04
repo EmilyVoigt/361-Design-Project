@@ -1,4 +1,3 @@
-import * as Plot from "@observablehq/plot";
 console.log("light histogram loaded");
 
 //data = FileAttachment("light_histogram/inside_house.csv").csv({typed: true})
@@ -40,7 +39,9 @@ const data = [
         time: 60
     }
 ];
-Plot.plot({
+
+dotplot = Plot.dot(data, {x: "temp", y: "humidity"}).plot();
+/*Plot.plot({
     y: {
       grid: true
     },
@@ -51,4 +52,4 @@ Plot.plot({
       Plot.rectY(data, Plot.binX({y: "light"}, {x: "time"})),
       Plot.ruleY([0])
     ]
-  })
+  })*/
