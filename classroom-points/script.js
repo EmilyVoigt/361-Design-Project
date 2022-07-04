@@ -72,6 +72,7 @@ points
     .append("image")
     .attr("id", (data) => data.name)
     .attr("xlink:href", "classroom-points/pointer.png")
+    .attr('class', 'pointer')
     .attr("width", pointWidth)
     .attr("x", pointWidth * -1) // to shift the pointer to the left
     .on("mouseenter", (event) => {
@@ -90,4 +91,3 @@ points
 var div = d3.select("body").append("div")	
     .attr("class", "tooltip")
     .style("opacity", 0);
-    
