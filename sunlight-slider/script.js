@@ -56,22 +56,40 @@ const scale = d3.scaleLinear()
     .domain([maxValue, 0])
     .range([0, height])
 
-group.append('image')
+// title
+group.append('text')
+    .attr('x', width/2)
+    .attr('y', padding/8)
+    .attr('class', 'title')
+    .text('Minutes in the Sun Today');
+
+const sliderGroup = group.append('g')
+    .attr('transform', `translate(0, ${padding/4})`);
+
+// background filled image
+sliderGroup.append('image')
     .attr('xlink:href', "sunlight-slider/sun-fill.png")
     .attr('width', width);
 
-group.append('rect')
+// white rect blocking some of the filled image
+sliderGroup.append('rect')
     .attr('width', width)
     .attr('height', (scale(minutesSunlight) > height) ? 0 : scale(minutesSunlight))
     .attr('fill', 'white');
 
-group.append('image')
+// the outline of the image
+sliderGroup.append('image')
     .attr('xlink:href', "sunlight-slider/sun-outline.png")
     .attr('width', width);
 
-group.append('g')
+// y-axis title
+sliderGroup.append('g')
     .attr('transform', `translate(${width + padding/4},0)`)
     .call(d3.axisRight(scale))
+    .append('text')
+    .attr('transform', `translate(${padding/2},${height/2})rotate(-90)`)
+    .text('Minutes of Sunlight')
+    .attr('class', 'title')
 
 function getMinutesSunlight(data) {
     let minutesSunlight = 0;
