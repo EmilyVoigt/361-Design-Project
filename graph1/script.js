@@ -2,7 +2,6 @@
 const h = 800; //svg height
 const w = 800; //svg width
 const r = h / 2; //svg radius
-
 const ticks = [200, 400, 600, 800, 1000]; // one tick per hour of daylight
 //TODO: CHANGE THIS SCALE IN ACCORDANCE WITH CALIBRATION
 
@@ -54,12 +53,15 @@ const pieGenerator = (period) => {
   return { start: startAngle, end: endAngle };
 };
 
+
 const svg = d3.select("svg");
 svg.attr("width", w);
 svg.attr("height", h); //height of SVG tag is number of cities * 150px each
 
+
 const graphBase = svg.append("g").attr("class", "graphBase"); //radial graph lines group
 const hoursGroup = svg.append("g").attr("class", "hoursGroup"); //hours group
+
 
 //now, we want to map our data values to radial dist from center of chart
 //use linear scale
@@ -89,6 +91,7 @@ hours.forEach((hour, i) => {
   let textPosition = getSvgAngle(angle, r - 25);
 
   const hourGroup = hoursGroup.append("g").attr("class", "hourGroup");
+
   hourGroup
     .append("line")
     .attr("x1", r) //start line at center
@@ -105,6 +108,7 @@ hours.forEach((hour, i) => {
     .attr("y", textPosition.y)
     .text(hour);
 });
+
 
 ticks.forEach((tick) => {
   graphBase
@@ -123,11 +127,11 @@ ticks.forEach((tick) => {
     .text(`${tick}`);
 });
 
-//DATA
 const line = d3
   .line()
   .x((d) => d.x)
   .y((d) => d.y);
+ 
 
 //reusable function to draw class time pie slices
 const drawClassPie = (time) => {
@@ -161,6 +165,7 @@ selectTag.addEventListener("input", () => {
 });
 
 //get point coords using average data for points
+
 const getPointCoords = (data_point) => {
   let coords = [];
   hours.forEach((hour, i) => {
