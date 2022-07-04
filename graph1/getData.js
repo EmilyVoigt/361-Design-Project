@@ -1,3 +1,5 @@
+const dataFileName = "fake_avg_day.csv";
+
 const testTime = 1656683511185; //9am 
 
 //function to average CSV light data by hour for radial graph
@@ -36,7 +38,7 @@ const dataHourAvg = (values) => {
 
 // get CSV data, return as an array of objects
 const getCsvData = () => {
-  const csvData = d3.csv("../data/fake_avg_day.csv", function (d, i) {
+  const csvData = d3.csv(`https://emilyvoigt.github.io/361-Design-Project/data/${dataFileName}`, function (d, i) {
      // TODO: change path to match our actual data file
     return {
       temp: +d.temp,
