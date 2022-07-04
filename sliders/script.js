@@ -58,8 +58,6 @@ const data = [
 ];
 
 // get summary values
-const [avgTemp, avgHumidity] = getSummaryData(data);
-
 const svg = d3.select('svg.sliders')
     .attr('width', 2 * width + padding);
 
@@ -73,8 +71,12 @@ const humGroup = svg.append('g')
     .attr('class', 'slider')
     .attr('transform', `translate(${width + padding},0)`);
 
-drawSlider(tempGroup, tempGraphAttributes, avgTemp);
-drawSlider(humGroup, humGraphAttributes, avgHumidity);
+(async() => {
+    const [avgTemp, avgHumidity] = await getSummaryData(data);
+        
+    drawSlider(tempGroup, tempGraphAttributes, avgTemp);
+    drawSlider(humGroup, humGraphAttributes, avgHumidity);
+})();
 
 function drawSlider(group, attributes, avgValue) {
     const scale = d3.scaleLinear()
@@ -126,9 +128,11 @@ function drawSlider(group, attributes, avgValue) {
         .attr('transform', `translate(${scale(avgValue)}, ${height/2})`);
 }
 
-function getSummaryData(data) {
+async function getSummaryData() {
     let avgTemp = 0;
     let avgHumidity = 0;
+
+    const data = await getCsvDataForDate(new Date(2022, 6, 2));
 
     data.forEach((dataRow) => {
         avgTemp += dataRow.temp;

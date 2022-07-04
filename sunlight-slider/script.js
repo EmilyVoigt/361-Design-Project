@@ -13,7 +13,6 @@ const maxValue = 120; // minutes of sunlight for image to be fully filled
     .attr('transform', `translate(5,5)`);
 
     const minutesSunlight = await getMinutesSunlight();
-    console.log('minutes sunlight', minutesSunlight)
 
     const scale = d3.scaleLinear()
         .domain([maxValue, 0])
@@ -60,7 +59,6 @@ async function getMinutesSunlight() {
     let minutesSunlight = 0;
 
     const data = await getCsvDataForDate(new Date(2022, 6, 2));
-    console.log(data);
 
     data.forEach((dataRow) => {
         if (dataRow.uv > 1) {
