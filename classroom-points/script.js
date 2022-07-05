@@ -25,7 +25,8 @@ const pointsToPlot=[
         desc: "The chairs in a classroom and the time spent sitting can contribute to lower back "
             + "pain and postural problems and diminish a student''s engagement [8]. Long periods "
             + "of immobility are associated with poor health outcomes, and increasing physical "
-            + "activity promotes physical and mental wellness [9]."
+            + "activity promotes physical and mental wellness [9]. The tightly packed chairs and desks "
+            + "constrain free space, making the classroom ill-suited for group work. "
     },
     {
         name: "humidity",
