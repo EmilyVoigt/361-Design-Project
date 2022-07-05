@@ -21,7 +21,7 @@ const spaceBetweenGraphs = 0;
 const svg = d3
   .select("svg")
   .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom + (5*graphPadding))
+  .attr("height", height + margin.top + margin.bottom + 5 * graphPadding)
   .append("g")
   .attr("transform", `translate(${margin.left} , ${margin.top})`);
 
@@ -56,8 +56,6 @@ let dataSelectVal = 0;
 
     //now, filter the data based on selected day
 
-    console.log(startTime, endTime)
-
     const dateData = [];
     data.forEach((point) => {
       // we pass in 2 variables of data to this function
@@ -69,13 +67,14 @@ let dataSelectVal = 0;
       if (
         pointDate === curDay.date &&
         pointYear === curDay.year &&
-        pointMonth === curDay.month
+        pointMonth === curDay.month &&
+        point.time > startTime && //filter out too big or too small times
+        point.time < endTime
       ) {
         dateData.push(point);
       }
     });
 
-    console.log(dateData)
 
 
     let graphGroup = svg
@@ -99,11 +98,6 @@ let dataSelectVal = 0;
     //draw x axis
     let x = d3
       .scaleTime()
-    //   .domain(
-    //     d3.extent(dateData, (d, i) => {
-    //       return d.time;
-    //     })
-    //   )
       .domain([startTime, endTime])
       .range([0, width]);
 
