@@ -38,12 +38,27 @@ async function getCsvDataForDate(date) {
     return dailyValues;
 }
 
-async function getDataDays(data){
-    let dates = new Set();
+function getDataDays(data){
+    let dates = []; 
 
     data.forEach(point =>{
-        dates.add(point.date())
+        const curPointData = {
+            year: point.time.getFullYear(),
+            month: point.time.getMonth(),
+            date: point.time.getDate(),
+            day: point.time.getDay(),
+            key: `${point.time.getFullYear()}${point.time.getMonth()}${point.time.getDate()}`
+        }
+           const inArray = dates.find(point =>{
+            if (point.key === curPointData.key){
+                return true
+            }
+            return false
+        })
+        if (!inArray){
+            dates.push(curPointData)
+        }
     })
-    return [...dates]
+    return dates
 }
 
