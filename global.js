@@ -23,7 +23,6 @@ async function getCsvData() {
 // takes in date obejct
 async function getCsvDataForDate(date) {
     const csvData = await getCsvData();
-
     const beginning = new Date(date.getFullYear(), date.getMonth(), date.getDate()).valueOf();
     const end = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).valueOf();
 
@@ -39,4 +38,12 @@ async function getCsvDataForDate(date) {
     return dailyValues;
 }
 
+async function getDataDays(data){
+    let dates = new Set();
+
+    data.forEach(point =>{
+        dates.add(point.date())
+    })
+    return [...dates]
+}
 
