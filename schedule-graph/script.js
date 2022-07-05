@@ -55,103 +55,13 @@ let dataSelectVal = 0;
 
   console.log(mappedDays);
 
-  //draw data function
-  const drawData = (data, dataSelectVal, index, curDay) => {
-    let colors = ["green", "orange", "steelblue"];
-    const startTime = new Date(
-      curDay.year,
-      curDay.month,
-      curDay.date,
-      9
-    );
-    const endTime = new Date(curDay.year, curDay.month, curDay.date, 10);
-
-    //now, filter the data based on selected day
-
-    const dateData = [];
-    data.forEach((point) => {
-      // we pass in 2 variables of data to this function
-      let pointDate = point.time.getDate();
-      let pointYear = point.time.getFullYear();
-      let pointMonth = point.time.getMonth();
-
-      //here, we filter the data by day, adding only relevent day data to the curdata array
-      if (
-        pointDate === curDay.date &&
-        pointYear === curDay.year &&
-        pointMonth === curDay.month &&
-        point.time > startTime && //filter out too big or too small times
-        point.time < endTime
-      ) {
-        dateData.push(point);
-      }
-    });
-
-    let graphGroup = graphContainer
-      .append("g")
-      .attr("class", `day-graph-${index}`)
-      .attr("height", dayLength)
-      .attr("transform", `translate(0, ${(dayLength + spaceBetweenGraphs) * index})`);
-
-    //draw y axis
-    let y = d3
-      .scaleLinear()
-      .domain([
-        0,
-        d3.max(data, (d, i) => {
-          return d.value;
-        }),
-      ])
-      .range([dayLength, 0]);
-    graphGroup.append("g").attr("class", "left-axis").call(d3.axisLeft(y));
-
-    //draw x axis
-    let x = d3
-      .scaleTime()
-      .domain([startTime, endTime])
-      .range([0, imageWidth - imageMargin.left - imageMargin.right]);
-
-    //draw bottom axis
-    graphGroup
-      .append("g")
-      .attr("class", "bottom-axis")
-      .attr("transform", `translate(0, ${dayLength})`)
-      .call(d3.axisBottom(x));
-
-    graphGroup
-      .append("text")
-      .text(`${curDay.day}`)
-      .attr("class", "xlabel")
-      .attr("color", "black")
-      .attr("transform", `translate(0, ${imageHeight / numGraphs})`);
-
-    //reusable draw data path function
-    graphGroup
-      .append("path")
-      .datum(dateData) //input an array of light and time here
-      .attr("fill", "none")
-      .attr("stroke", colors[dataSelectVal])
-      .attr("class", "dataPath")
-      .attr("stroke-width", 1.5)
-      .attr(
-        "d",
-        d3
-          .line()
-          .x(function (d) {
-            return x(d.time);
-          })
-          .y(function (d) {
-            return y(d.value);
-          })
-      );
-  };
-
   const drawAllGraphs = (graphData) => {
     for (let i = 0; i < mappedDays.length; i++) {
       drawData(graphData, dataSelectVal, i, mappedDays[i]);
     }
   };
-
+  
+  // default graph to display on page load
   drawAllGraphs(lightTimeData);
 
   //event listener for type of data to draw
@@ -173,3 +83,97 @@ let dataSelectVal = 0;
     }
   });
 })();
+
+//draw data function
+// data - time and value array
+// dataSelectVal - the data type selected to visualize
+// index - the index of the date (ie 0 should be monday, 1 tuesday etc)
+// curDay - the day as a date object that we are drawing this for
+function drawData (data, dataSelectVal, index, curDay) {
+  let colors = ["green", "orange", "steelblue"];
+  const startTime = new Date(
+    curDay.year,
+    curDay.month,
+    curDay.date,
+    scheduleTimeRange.start
+  );
+  const endTime = new Date(curDay.year, curDay.month, curDay.date, scheduleTimeRange.end);
+
+  //now, filter the data based on selected day
+  const dateData = [];
+  data.forEach((point) => {
+    // we pass in 2 variables of data to this function
+    let pointDate = point.time.getDate();
+    let pointYear = point.time.getFullYear();
+    let pointMonth = point.time.getMonth();
+
+    //here, we filter the data by day, adding only relevent day data to the curdata array
+    if (
+      pointDate === curDay.date &&
+      pointYear === curDay.year &&
+      pointMonth === curDay.month &&
+      point.time > startTime && //filter out too big or too small times
+      point.time < endTime
+    ) {
+      dateData.push(point);
+    }
+  });
+
+  let graphGroup = graphContainer
+    .append("g")
+    .attr("class", `day-graph-${index}`)
+    .attr("height", dayLength)
+    .attr("transform", `translate(0, ${(dayLength + spaceBetweenGraphs) * index})`);
+
+  //draw y axis
+  let y = d3
+    .scaleLinear()
+    .domain([
+      0,
+      d3.max(data, (d, i) => {
+        return d.value;
+      }),
+    ])
+    .range([dayLength, 0]);
+  graphGroup.append("g").attr("class", "left-axis").call(d3.axisLeft(y));
+
+  //draw x axis
+  let x = d3
+    .scaleTime()
+    .domain([startTime, endTime])
+    .range([0, imageWidth - imageMargin.left - imageMargin.right]);
+
+  //draw bottom axis
+  graphGroup
+    .append("g")
+    .attr("class", "bottom-axis")
+    .attr("transform", `translate(0, ${dayLength})`)
+    .call(d3.axisBottom(x));
+
+  graphGroup
+    .append("text")
+    .text(`${curDay.day}`)
+    .attr("class", "xlabel")
+    .attr("color", "black")
+    .attr("transform", `translate(0, ${imageHeight / numGraphs})`);
+
+  //reusable draw data path function
+  graphGroup
+    .append("path")
+    .datum(dateData) //input an array of light and time here
+    .attr("fill", "none")
+    .attr("stroke", colors[dataSelectVal])
+    .attr("class", "dataPath")
+    .attr("stroke-width", 1.5)
+    .attr(
+      "d",
+      d3
+        .line()
+        .x(function (d) {
+          return x(d.time);
+        })
+        .y(function (d) {
+          return y(d.value);
+        })
+    );
+};
