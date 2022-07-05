@@ -57,6 +57,7 @@ console.log(data);
 function LineChart(data, {
     x = d => d.time,
     y = d => d.temp,
+    h = d => d.humidity,
     defined,
     curve = d3.curveLinear, // how to interpolate between our data points
     marginTop = 20, 
@@ -73,6 +74,7 @@ function LineChart(data, {
     yRange = [height - marginBottom, marginTop], // [bottom, top]
     yFormat, // a format specifier string for the y-axis
     yLabel = "Temperature (Degrees Celsius)", 
+    hLabel = "% Humidity",
     color = "blue", // line color
     strokeLinecap = "round", 
     strokeLinejoin = "round",
@@ -82,8 +84,9 @@ function LineChart(data, {
     // map values and handle invalid entries 
     const X = d3.map(data, x);
     const Y = d3.map(data, y);
+    const H = d3.map(data, h);
     const I = d3.range(X.length);
-    if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
+    if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]) && !isNaN(H[i]);
     const D = d3.map(data, defined);
   
     // define x & y domains
@@ -93,17 +96,20 @@ function LineChart(data, {
     // define scales and axes
     const xScale = xType(xDomain, xRange);
     const yScale = yType(yDomain, yRange);
+    const hScale = yType(0, 100);
     const xAxis = d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
     const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
+    const hAxis = d3.axisRight(hScale).ticks(height / 40, yFormat);
   
     // generate a line from data
     const line = d3.line()
         .defined(i => D[i])
         .curve(curve)
         .x(i => xScale(X[i]))
-        .y(i => yScale(Y[i]));
+        .y(i => yScale(Y[i]))
+        .h(i => hScale(H[i]));
   
-    const svg = d3.create("svg")
+    const svg = d3.select("svg.line-plot")
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", [0, 0, width, height])
@@ -116,6 +122,7 @@ function LineChart(data, {
     svg.append("g")
         .attr("transform", `translate(${marginLeft},0)`)
         .call(yAxis)
+        .call(hAxis)
         .call(g => g.select(".domain").remove())
         .call(g => g.selectAll(".tick line").clone()
             .attr("x2", width - marginLeft - marginRight)
@@ -137,7 +144,5 @@ function LineChart(data, {
         .attr("d", line(I));
   
   }
-  
 
-
-d3.select("svg.line-plot").append(LineChart(data))
+// d3.select("svg.line-plot").append(LineChart(data))
