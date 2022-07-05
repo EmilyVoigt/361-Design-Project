@@ -1,0 +1,19 @@
+body{
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.bottom-axis, .left-axis{
+    color: black;
+    opacity: 1;
+    fill: black;
+    stroke: black;
+}
+
+select{
+    z-index: 20;
+    cursor: pointer;
+    top: 20px;
+    left: 20px;
+    position: fixed;
+}
