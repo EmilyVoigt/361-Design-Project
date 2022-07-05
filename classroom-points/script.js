@@ -1,11 +1,11 @@
 console.log("classroom points diagram loaded");
 
 // width and height of image
-const width = 500;
-const height = 375;
+const width = 800;
+const height = 600;
 
 // some other dimensions
-const pointWidth = 25;
+const pointWidth = 40;
 const descOffset = 8;
 
 // coordinates of pointers to be scaled
@@ -13,32 +13,45 @@ const pointsToPlot=[
     {
         name: "windows",
         x: 0.2,
-        y: 0.45,
-        desc: "light is important for students"
+        y: 0.4,
+        desc: "Direct sunlight exposure is necessary for the synthesis of vitamin D. "
+            + "The winter, when people generally receive fewer hours of sunlight exposure, "
+            + "is associated with increased depressive symptoms [3]."
     },
     {
         name: "chairs",
-        x: 0.48,
-        y: 0.85,
-        desc: "posture is important for students"
+        x: 0.55,
+        y: 0.65,
+        desc: "The chairs in a classroom and the time spent sitting can contribute to lower back "
+            + "pain and postural problems and diminish a student''s engagement [8]. Long periods "
+            + "of immobility are associated with poor health outcomes, and increasing physical "
+            + "activity promotes physical and mental wellness [9]."
     },
     {
         name: "humidity",
         x: 0.3,
         y: 0.6,
-        desc: "humidity is important for students"
+        desc: "Relative humidity affects students'' learning performance, especially at "
+            + "humidities below the ideal 40% [4]. High humidity can also increase allergens "
+            + "and irritants in the environment, leading to a greater incidence of respiratory "
+            + "problems [7]."
     },
     {
         name: "temperature",
         x: 0.7, 
         y: 0.45,
-        desc: "temperature is important for students"
+        desc: "A temperature of 24 \u2103 is recommended for student learning environments [4]. "
+            + "Every degree celsius increase above 25 \u2103 is associated with an average of 2% "
+            + "decrease in performance [5]. Symptoms of mental health disorders are also "
+            + "exacerbated by high indoor temperatures [6]."
     },
     {
-        name: "ceiling-vent",
-        x: 0.45,
-        y: 0.2,
-        desc: "air quality"
+        name: "light",
+        x: 0.55,
+        y: 0.12,
+        desc: "Daytime light exposure regulates our times of alertness and fatigue [1]. Brighter "
+            + "light can promote alertness and vitality during the day, but experiencing too much "
+            + "light from bright electric sources is less pleasant and may delay sleep [2]."
     }
 ];
 
@@ -59,6 +72,7 @@ points
     .append("image")
     .attr("id", (data) => data.name)
     .attr("xlink:href", "classroom-points/pointer.png")
+    .attr('class', 'pointer')
     .attr("width", pointWidth)
     .attr("x", pointWidth * -1) // to shift the pointer to the left
     .on("mouseenter", (event) => {
@@ -66,15 +80,14 @@ points
         div
             .html(data.desc)
             .style("opacity", 1)
-            .style("left", `${data.x * width + descOffset}px`)		
-            .style("top", `${data.y * height + descOffset}px`);
+            .style("left", `${(event.pageX - event.offsetX) + data.x * width + descOffset}px`)		
+            .style("top", `${data.y * height - 4 * descOffset}px`);
     })
     .on("mouseout", (event) => {
         div.style("opacity", 0);
     });
 
 // Define the div for the tooltip
-var div = d3.select("body").append("div")	
-    .attr("class", "tooltip")				
+var div = d3.select('div.classroom-body').append("div")	
+    .attr("class", "tooltip")
     .style("opacity", 0);
-    
