@@ -1,11 +1,11 @@
 console.log("classroom points diagram loaded");
 
 // width and height of image
-const width = 500;
-const height = 375;
+const width = 800;
+const height = 600;
 
 // some other dimensions
-const pointWidth = 25;
+const pointWidth = 40;
 const descOffset = 8;
 
 // coordinates of pointers to be scaled
@@ -25,7 +25,8 @@ const pointsToPlot=[
         desc: "The chairs in a classroom and the time spent sitting can contribute to lower back "
             + "pain and postural problems and diminish a student''s engagement [8]. Long periods "
             + "of immobility are associated with poor health outcomes, and increasing physical "
-            + "activity promotes physical and mental wellness [9]."
+            + "activity promotes physical and mental wellness [9]. The tightly packed chairs and desks "
+            + "constrain free space, making the classroom ill-suited for group work. "
     },
     {
         name: "humidity",
@@ -40,8 +41,8 @@ const pointsToPlot=[
         name: "temperature",
         x: 0.7, 
         y: 0.45,
-        desc: "A temperature of 24C is recommended for student learning environments [4]. "
-            + "Every degree celsius increase above 25C is associated with an average of 2% "
+        desc: "A temperature of 24 \u2103 is recommended for student learning environments [4]. "
+            + "Every degree celsius increase above 25 \u2103 is associated with an average of 2% "
             + "decrease in performance [5]. Symptoms of mental health disorders are also "
             + "exacerbated by high indoor temperatures [6]."
     },
@@ -80,7 +81,7 @@ points
         div
             .html(data.desc)
             .style("opacity", 1)
-            .style("left", `${data.x * width + descOffset}px`)		
+            .style("left", `${(event.pageX - event.offsetX) + data.x * width + descOffset}px`)		
             .style("top", `${data.y * height - 4 * descOffset}px`);
     })
     .on("mouseout", (event) => {
@@ -88,6 +89,6 @@ points
     });
 
 // Define the div for the tooltip
-var div = d3.select("body").append("div")	
+var div = d3.select('div.classroom-body').append("div")	
     .attr("class", "tooltip")
     .style("opacity", 0);
