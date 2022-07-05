@@ -3,17 +3,24 @@ body{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.bottom-axis, .left-axis{
-    color: black;
-    opacity: 1;
-    fill: black;
-    stroke: black;
+h1{
+    font-size: 16px;
+    text-align: center;
 }
 
-select{
+
+select.daySelect{
     z-index: 20;
     cursor: pointer;
     top: 20px;
+    left: 20px;
+    position: fixed;
+}
+
+select.dataSelect{
+    z-index: 20;
+    cursor: pointer;
+    top: 60px;
     left: 20px;
     position: fixed;
 }

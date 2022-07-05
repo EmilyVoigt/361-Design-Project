@@ -1,55 +1,74 @@
 // select svg tag
-let margin = {top: 10, right: 30, bottom: 30, left: 60}
-let w = 860 - margin.left - margin.right
-let h = 500 - margin.top - margin.bottom
+let margin = { top: 10, right: 30, bottom: 30, left: 60 };
+let w = 860 - margin.left - margin.right;
+let h = 500 - margin.top - margin.bottom;
 
-const svg = d3.select("svg")
-            .attr("width", w + margin.left + margin.right)
-            .attr("height", h + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                  `translate(${margin.left} , ${margin.top})`);
+const svg = d3
+  .select("svg")
+  .attr("width", w + margin.left + margin.right)
+  .attr("height", h + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left} , ${margin.top})`);
 
 const container = svg
   .append("g")
   .attr("class", "graphContainer")
-  .attr("transform", `translate(${margin.left}, ${ margin.top})`);
+  .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-const selectTag = document.querySelector("select");
+const daySelectTag = document.querySelector("select.daySelect");
+const dataSelectTag = document.querySelector("select.dataSelect");
+
 let curDay = classTimes[0];
-
-selectTag.addEventListener("input", () => {
-  curDay = classTimes[selectTag.value];
-  console.log(curDay);
-});
+let curDataVal = 0;
 
 (async () => {
   let csvData = await getCsvData();
+  //if dataSelect = 0, return light
+  //if dataSelect = 1, return temp
+  //if dataSelect = 2, return humidity
 
-  const lightTimeData = () => {
-    const finalData = [];
-    csvData.forEach((point) => {
-      finalData.push({ time: point.time, light: point.light });
-    });
-    return finalData;
+  const lightTimeData = getLightTimeData(csvData);
+  const tempTimeData = getTempTimeData(csvData);
+  const humidityTimeData = getHumidityTimeData(csvData);
+
+  const drawData = (data, curDataVal) => {
+
+    let colors = ["green", "orange", "steelblue"]
+
+
+    let y = d3
+      .scaleLinear()
+      .domain([
+        0,
+        d3.max(data, (d, i) => {
+          return d.value;
+        }),
+      ])
+      .range([h, 0]);
+    svg.append("g").attr("class", "left-axis").call(d3.axisLeft(y));
+    //reusable draw data path function
+    svg
+      .append("path")
+      .datum(data) //input an array of light and time here
+      .attr("fill", "none")
+      .attr("stroke", colors[curDataVal])
+      .attr("class", "dataPath")
+      .attr("stroke-width", 1.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x(d.time);
+          })
+          .y(function (d) {
+            return y(d.value);
+          })
+      );
   };
 
-  const tempTimeData = () => {
-    const finalData = [];
-    csvData.forEach((point) => {
-      finalData.push({ time: point.time, temp: point.temp });
-    });
-    return finalData;
-  };
 
-  const humidityTimeData = () => {
-    const finalData = [];
-    csvData.forEach((point) => {
-      finalData.push({ time: point.time, humidity: point.humidity });
-    });
-    return finalData;
-  };
-
+  //x axis
   let x = d3
     .scaleTime()
     .domain(
@@ -63,80 +82,28 @@ selectTag.addEventListener("input", () => {
     .append("g")
     .attr("class", "bottom-axis")
     .attr("transform", `translate(0, ${h})`)
-    .call(d3.axisBottom(x))
+    .call(d3.axisBottom(x));
 
+  daySelectTag.addEventListener("input", () => {
+    curDay = classTimes[daySelectTag.value];
+  });
 
-  let y = d3
-    .scaleLinear()
-    .domain([
-      0,
-      d3.max(csvData, (d, i) => {
-        return d.light;
-      }),
-    ])
-    .range([h, 0]);
+  drawData(lightTimeData, curDataVal); //initial graph
 
-  svg
-    .append("g")
-    .attr("class", "left-axis")
-    .call(d3.axisLeft(y))
+  dataSelectTag.addEventListener("input", () => {
+    curDataVal = dataSelectTag.value;
 
+    d3.selectAll(".dataPath").remove();
+    d3.selectAll(".left-axis").remove();
 
-  //light path
-  svg
-    .append("path")
-    .datum(lightTimeData) //input an array of light anf time here
-    .attr("fill", "none")
-    .attr("stroke", "steelblue")
-    .attr("stroke-width", 1.5)
-    .attr(
-      "d",
-      d3
-        .line()
-        .x(function (d) {
-          return x(d.time);
-        })
-        .y(function (d) {
-          return y(d.light);
-        })
-    );
-
-    //temp path
-  svg
-    .append("path")
-    .datum(tempTimeData) //input an array of light anf time here
-    .attr("fill", "none")
-    .attr("stroke", "red")
-    .attr("stroke-width", 1.5)
-    .attr(
-      "d",
-      d3
-        .line()
-        .x(function (d) {
-          return x(d.time);
-        })
-        .y(function (d) {
-          return y(d.temp);
-        })
-    );
-
-        //temp path
-  svg
-  .append("path")
-  .datum(humidityTimeData) //input an array of light anf time here
-  .attr("fill", "none")
-  .attr("stroke", "green")
-  .attr("stroke-width", 1.5)
-  .attr(
-    "d",
-    d3
-      .line()
-      .x(function (d) {
-        return x(d.time);
-      })
-      .y(function (d) {
-        return y(d.humidity);
-      })
-  );
+    if (curDataVal == 0) {
+      drawData(lightTimeData, curDataVal);
+    }
+    if (curDataVal == 1) {
+      drawData(tempTimeData, curDataVal);
+    }
+    if (curDataVal == 2) {
+      drawData(humidityTimeData, curDataVal);
+    }
+  });
 })();
-

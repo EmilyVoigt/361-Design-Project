@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Sun Graph</title>
 		<link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="graph1/z_style.css">
+    <link rel="stylesheet" href="schedule-graph/z_style.css">
   </head>
             <!--HOST COMMAND:  python3 -m http.server 8080 -->
     <body>
@@ -14,7 +14,7 @@
         <h1>Environment vs. Class Schedule</h1>
         <svg class="graph"> </svg>
 
-        <select>
+        <select class = "daySelect">
             <option value=0>Monday</option>
             <option value=1>Tuesday</option>
             <option value=2>Wednesday</option>
@@ -22,8 +22,15 @@
             <option value=4>Friday</option>
         </select>
 
+        <select class = "dataSelect">
+            <option value=0>Light</option>
+            <option value=1>Temperature</option>
+            <option value=2>Humidity</option>
+        </select>
+
         <script src = "d3.min.js"></script>
         <script src = "global.js"></script>
+        <script src = "schedule-graph/helperFunctions.js"></script>
         <script src = "/graph1/classData.js"></script>
         <script src = "schedule-graph/script.js"></script>
 
