@@ -1,16 +1,16 @@
 // select svg tag
 let margin = { top: 10, right: 30, bottom: 30, left: 60 };
 let graphPadding = 40;
-let w = 860 - margin.left - margin.right;
-let h = 1000 - margin.top - margin.bottom;
+let width = 860 - margin.left - margin.right;
+let height = 1000 - margin.top - margin.bottom;
 let numGraphs = 5;
 const startHour = 8; //start all graphs at 8am
 const endHour = 18; //end all graphs at 6pm
 
 const svg = d3
   .select("svg")
-  .attr("width", w + margin.left + margin.right)
-  .attr("height", h + margin.top + margin.bottom + 5 * graphPadding)
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom + 5 * graphPadding)
   .append("g")
   .attr("transform", `translate(${margin.left} , ${margin.top})`);
 
@@ -45,8 +45,6 @@ let dataSelectVal = 0;
 
     //now, filter the data based on selected day
 
-    console.log(startTime, endTime)
-
     const dateData = [];
     data.forEach((point) => {
       // we pass in 2 variables of data to this function
@@ -58,20 +56,21 @@ let dataSelectVal = 0;
       if (
         pointDate === curDay.date &&
         pointYear === curDay.year &&
-        pointMonth === curDay.month
+        pointMonth === curDay.month &&
+        point.time > startTime && //filter out too big or too small times
+        point.time < endTime
       ) {
         dateData.push(point);
       }
     });
 
-    console.log(dateData)
 
 
     let graphGroup = svg
       .append("g")
       .attr("class", "dayGraph")
-      .attr("height", h / 5)
-      .attr("transform", `translate(0, ${(h / numGraphs + graphPadding) * i})`);
+      .attr("height", height / 5)
+      .attr("transform", `translate(0, ${(height / numGraphs + graphPadding) * i})`);
 
     //draw y axis
     let y = d3
@@ -82,25 +81,20 @@ let dataSelectVal = 0;
           return d.value;
         }),
       ])
-      .range([h / 5, 0]);
+      .range([height / 5, 0]);
     graphGroup.append("g").attr("class", "left-axis").call(d3.axisLeft(y));
 
     //draw x axis
     let x = d3
       .scaleTime()
-    //   .domain(
-    //     d3.extent(dateData, (d, i) => {
-    //       return d.time;
-    //     })
-    //   )
       .domain([startTime, endTime])
-      .range([0, w]);
+      .range([0, width]);
 
     //draw bottom axis
     graphGroup
       .append("g")
       .attr("class", "bottom-axis")
-      .attr("transform", `translate(0, ${h / numGraphs})`)
+      .attr("transform", `translate(0, ${height / numGraphs})`)
       .call(d3.axisBottom(x));
 
     graphGroup
@@ -108,7 +102,7 @@ let dataSelectVal = 0;
       .text(`${curDay.day}`)
       .attr("class", "xlabel")
       .attr("color", "black")
-      .attr("transform", `translate(0, ${h / numGraphs})`);
+      .attr("transform", `translate(0, ${height / numGraphs})`);
 
     //reusable draw data path function
     graphGroup
