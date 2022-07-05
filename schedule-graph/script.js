@@ -23,19 +23,12 @@ let curDataVal = 0;
 
 (async () => {
   let csvData = await getCsvData();
-  //if dataSelect = 0, return light
-  //if dataSelect = 1, return temp
-  //if dataSelect = 2, return humidity
-
   const lightTimeData = getLightTimeData(csvData);
   const tempTimeData = getTempTimeData(csvData);
   const humidityTimeData = getHumidityTimeData(csvData);
 
   const drawData = (data, curDataVal) => {
-
     let colors = ["green", "orange", "steelblue"]
-
-
     let y = d3
       .scaleLinear()
       .domain([
@@ -68,7 +61,7 @@ let curDataVal = 0;
   };
 
 
-  //x axis
+  //x axis does not change 
   let x = d3
     .scaleTime()
     .domain(
@@ -76,6 +69,11 @@ let curDataVal = 0;
         return d.time;
       })
     ) //d3.extent returns [min,max] of input
+
+    //manually set these values to min max dates 
+    //so x axis always starts at 8:00AM and goes to 5:00PM ON THE SELECTED DAY 
+
+
     .range([0, w]);
 
   svg
@@ -85,7 +83,13 @@ let curDataVal = 0;
     .call(d3.axisBottom(x));
 
   daySelectTag.addEventListener("input", () => {
-    curDay = classTimes[daySelectTag.value];
+    curDay = daySelectTag.value;
+    //getDay() returns day number from 0 - 6 starting from sunday 
+    //monday = 1, tuesday = 2, etc. 
+
+    // this is where we need to change data rendered and BG image 
+    //use abbie's date function 
+    
   });
 
   drawData(lightTimeData, curDataVal); //initial graph

@@ -38,3 +38,5 @@ async function getCsvDataForDate(date) {
 
     return dailyValues;
 }
+
+
