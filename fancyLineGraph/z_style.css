@@ -1,9 +1,23 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+
 rect.uvBlocks{
     fill: var(--yellow);
-    stroke: var(--yellow);
-    stroke-width: 1;
-    fill-opacity: 0.5;
+    stroke: transparent;
+    outline: none;
+    fill-opacity: 0.3;
 }
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
 
 path {
     stroke-width: 1;
