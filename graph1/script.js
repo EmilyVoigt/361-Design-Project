@@ -1,6 +1,6 @@
 //save width and height for easy access later on
-const h = 700; //svg height
-const w = 700; //svg width
+const h = 650; //svg height
+const w = 650; //svg width
 const r = h / 2; //svg radius
 const ticks = [40, 400, 4000, 14000]; // one tick per lux
 
