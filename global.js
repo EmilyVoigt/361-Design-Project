@@ -6,16 +6,15 @@ const testTime = 1656507600000; //9am on Wednesday June 29
 // get CSV data, return as an array of objects
 async function getCsvData() {
     const csvData = d3.csv(`https://emilyvoigt.github.io/361-Design-Project/data/${dataFileName}`, function (d, i) {
-       // TODO: change path to match our actual data file
+       const time = new Date(+d.time * 1000)
+       time.setTime(time.getTime()+time.getTimezoneOffset()*60*1000) //sets timezone to EST rather than GMT
+
       return {
         temp: +d.temp,
         humidity: +d.humidity,
         light: +d.light,
         uv: +d.uv,
-        time: new Date(+d.time*1000)
-        // add 10minutes to each time
-        // time: new Date(+d.time)
-        //TODO: add time
+        time: time
       };
     });
     return csvData;
