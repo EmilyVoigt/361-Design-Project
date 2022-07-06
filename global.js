@@ -1,5 +1,5 @@
 const measurementInterval = 1; // interval between sensor readings in minutes
-const dataFileName = "fake_avg_day.csv"; // the file to read data from
+const dataFileName = "test_data.csv"; // the file to read data from
 
 const testTime = 1656683511185; //9am on Friday July 1, 2022
 
@@ -7,15 +7,16 @@ const testTime = 1656683511185; //9am on Friday July 1, 2022
 async function getCsvData() {
     const csvData = d3.csv(`https://emilyvoigt.github.io/361-Design-Project/data/test_data.csv`, function (d, i) {
        // TODO: change path to match our actual data file
+
+       const time = new Date(+d.time * 1000)
+       time.setTime(time.getTime()+time.getTimezoneOffset()*60*1000)
+
       return {
         temp: +d.temp,
         humidity: +d.humidity,
         light: +d.light,
         uv: +d.uv,
-        time: +d.time
-        //new Date(testTime + (600000*i)), // add 10minutes to each time
-        // time: new Date(+d.time)
-        //TODO: add time
+        time: time
       };
     });
     return csvData;
