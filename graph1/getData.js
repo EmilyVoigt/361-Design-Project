@@ -12,8 +12,15 @@ const dataHourAvg = (values) => {
 
   values.forEach((d, i) => {
     //TODO: add in real time vals
-    const pointHour = d.time.getHours(); //get hour value of point
+    let pointHour = d.time.getHours(); //get hour value of point
+    const pointMinute = d.time.getMinutes();
     const pointLightValue = d.light;
+
+    //switch to showing averages for the half hour before and after the point, rather than for the hour after
+    if (pointMinute > 30){
+      pointHour ++;
+    }
+
     // now add hour value to array val at hour index
     const newTotal = averagesArray[pointHour].total + pointLightValue; //add new data point to current total
     const newPoints = averagesArray[pointHour].dataPoints + 1; //add one to total num of data points

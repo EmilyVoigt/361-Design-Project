@@ -1,0 +1,17 @@
+body{
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    font-size: 16px;
+    text-align: center;
+}
+
+select.dataSelect{
+    z-index: 20;
+    cursor: pointer;
+    top: 20px;
+    left: 20px;
+    position: fixed;
+}
