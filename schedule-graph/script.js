@@ -4,8 +4,6 @@ console.log('loaded schedule graph');
 const imageWidth = 523;
 const imageHeight = 895;
 const margin = { top: 16, right: 27, bottom: 15, left: 15 };
-let numGraphs = 5;
-let graphPadding = 40;
 const scheduleTimeRange = {
   start: 8, // start time of graph on 24-hour clock
   end: 16   // end time of graph on 24-hour clock
@@ -53,8 +51,6 @@ let dataSelectVal = 0;
   const humidityTimeData = getHumidityTimeData(csvData);
   const mappedDays = getDataDays(csvData); // array of days we actually have data for
 
-  console.log(mappedDays);
-
   const drawAllGraphs = (graphData) => {
     for (let i = 0; i < mappedDays.length; i++) {
       drawData(graphData, dataSelectVal, i, mappedDays[i]);
@@ -91,12 +87,7 @@ let dataSelectVal = 0;
 // curDay - the day as a date object that we are drawing this for
 function drawData (data, dataSelectVal, index, curDay) {
   let colors = ["green", "orange", "steelblue"];
-  const startTime = new Date(
-    curDay.year,
-    curDay.month,
-    curDay.date,
-    scheduleTimeRange.start
-  );
+  const startTime = new Date(curDay.year, curDay.month, curDay.date, scheduleTimeRange.start);
   const endTime = new Date(curDay.year, curDay.month, curDay.date, scheduleTimeRange.end);
 
   //now, filter the data based on selected day
@@ -123,7 +114,7 @@ function drawData (data, dataSelectVal, index, curDay) {
     .append("g")
     .attr("class", `day-graph-${index}`)
     .attr("height", dayLength)
-    .attr("transform", `translate(0, ${(dayLength + spaceBetweenGraphs) * index})`);
+    .attr("transform", `translate(0, ${(dayLength + spaceBetweenGraphs) * (curDay.day - 1)})`);
 
   //draw y axis
   let y = d3
@@ -149,13 +140,6 @@ function drawData (data, dataSelectVal, index, curDay) {
     .attr("class", "bottom-axis")
     .attr("transform", `translate(0, ${dayLength})`)
     .call(d3.axisBottom(x));
-
-  graphGroup
-    .append("text")
-    .text(`${curDay.day}`)
-    .attr("class", "xlabel")
-    .attr("color", "black")
-    .attr("transform", `translate(0, ${imageHeight / numGraphs})`);
 
   //reusable draw data path function
   graphGroup

@@ -1,7 +1,7 @@
 const measurementInterval = 10; // interval between sensor readings in minutes
 const dataFileName = "fake_avg_day.csv"; // the file to read data from
 
-const testTime = 1656683511185; //9am on Friday July 1, 2022
+const testTime = 1656507600000; //9am on Wednesday June 29
 
 // get CSV data, return as an array of objects
 async function getCsvData() {
