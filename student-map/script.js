@@ -86,7 +86,7 @@ points
         div
             .html(data.desc)
             .style("opacity", 1)
-            .style("left", `${data.x * width + descOffset}px`)		
+            .style("left", `${(event.pageX - event.offsetX) + data.x * width + descOffset}px`)		
             .style("top", `${data.y * height - 4 * descOffset}px`);
     })
     .on("mouseout", (event) => {
@@ -94,6 +94,6 @@ points
     });
 
 // Define the div for the tooltip
-var div = d3.select("body").append("div")	
+var div = d3.select("div.student-map-body").append("div")	
     .attr("class", "tooltip")
     .style("opacity", 0);
