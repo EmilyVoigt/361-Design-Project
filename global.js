@@ -5,11 +5,9 @@ const testTime = 1656683511185; //9am on Friday July 1, 2022
 
 // get CSV data, return as an array of objects
 async function getCsvData() {
-    const csvData = d3.csv(`https://emilyvoigt.github.io/361-Design-Project/data/test_data.csv`, function (d, i) {
-       // TODO: change path to match our actual data file
-
+    const csvData = d3.csv(`https://emilyvoigt.github.io/361-Design-Project/data/${dataFileName}`, function (d, i) {
        const time = new Date(+d.time * 1000)
-       time.setTime(time.getTime()+time.getTimezoneOffset()*60*1000)
+       time.setTime(time.getTime()+time.getTimezoneOffset()*60*1000) //sets timezone to EST rather than GMT
 
       return {
         temp: +d.temp,
