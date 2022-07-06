@@ -24,12 +24,14 @@ path {
     fill: none;
 }
 
-.data1 {
-    stroke: steelblue;
+.humidline {
+    stroke: var(--green);
+    stroke-width: 2px;
 }
 
-.data2 {
-    stroke: orange;
+.templine {
+    stroke: var(--orange);
+    stroke-width: 2px;
 }
 
 .axis {

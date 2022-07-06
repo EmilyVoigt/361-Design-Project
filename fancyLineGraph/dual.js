@@ -1,3 +1,4 @@
+// get csv containing time and UV pairs only 
 const getUvTimeData = (data) => {
     const finalData = [];
     data.forEach((point) => {
@@ -6,6 +7,7 @@ const getUvTimeData = (data) => {
     return finalData;
 };
 
+// create an array containing time and UV pairs for time outside only (to plot UV blocks on graph)
 const getTimesOutside = (data) => {
     const outsideData = data.filter(point => point.uv > 1);
     console.log(outsideData);
@@ -27,8 +29,9 @@ const getTimesOutside = (data) => {
   } */
 
 (async () => {
+    // get data!! 
     const data = await getCsvData()
-    console.log(data);
+    console.log(data); //check upload is correct
     const uvTimeData = getUvTimeData(data);
     console.log(uvTimeData);
     const outsideArray = getTimesOutside(uvTimeData);
@@ -55,36 +58,34 @@ const getTimesOutside = (data) => {
         .x(function(d) { return x(d.time); })
         .y(function(d) { return humidity(d.humidity); });
 
-    // append the svg obgect to the body of the page
-    // appends a 'group' element to 'svg'
-    // moves the 'group' element to the top left margin
+    // append the svg object to the body of the web page
     const svg = d3.select("svg.dual-plot")
-        .attr("width", width + margin.left + margin.right)
+        .attr("width", width + margin.left + margin.right)     // moves the 'group' element to the top left margin
         .attr("height", height + margin.top + margin.bottom)
     .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    // Scale the range of the data
+    // Scale the range of our data
     x.domain(d3.extent(data, function(d) { return d.time; }));
     temperature.domain([0, 40]);
     humidity.domain([0, 100]);
 
-    // Add the tempLine path.
+    // Add the tempLine path
     svg.append("path")
         .data([data])
-        .attr("class", "line")
+        .attr("class", "templine")
         .style("stroke", "orange")
         .attr("d", tempLine);
 
-    // Add the humidLine path.
+    // Add the humidLine path
     svg.append("path")
         .data([data])
-        .attr("class", "line")
-        .style("stroke", "steelblue")
+        .attr("class", "humidline")
+        .style("stroke", "#90BBA9")
         .attr("d", humidLine);
 
-    // Add the X Axis
+    // Add the x axis
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
@@ -115,13 +116,12 @@ const getTimesOutside = (data) => {
         .text("% Humidity"));
 
     // Add the UV blocks
-    var uvShiftX = 10;
     var uvWidth = 60;
     
     //data.forEach(checkUV(data, outsideArray));
    // while (data.time == outsideArray.time) {
     svg.append("rect")
-        .attr('x', uvShiftX)
+        .attr('x', 267)
         .attr('y', 0)
         .attr('width', uvWidth)
         .attr("class", "uvBlocks")
@@ -130,9 +130,18 @@ const getTimesOutside = (data) => {
         .attr('height', height);
 
     svg.append("rect")
-        .attr('x', 90)
+        .attr('x', 20)
         .attr('y', 0)
-        .attr('width', uvWidth)
+        .attr('width', 20)
+        .attr("class", "uvBlocks")
+        .style('fill', "yellow")
+        .style('fill-opacity', 0.3)
+        .attr('height', height);
+
+    svg.append("rect")
+        .attr('x', 600)
+        .attr('y', 0)
+        .attr('width', 70)
         .attr("class", "uvBlocks")
         .style('fill', "yellow")
         .style('fill-opacity', 0.3)
