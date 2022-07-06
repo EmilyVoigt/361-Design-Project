@@ -1,3 +1,10 @@
+rect.uvBlocks{
+    fill: var(--yellow);
+    stroke: var(--yellow);
+    stroke-width: 1;
+    fill-opacity: 0.5;
+}
+
 path {
     stroke-width: 1;
     fill: none;

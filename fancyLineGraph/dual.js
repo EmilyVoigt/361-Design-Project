@@ -1,50 +1,42 @@
-/*const data = [
-    {
-        temp: 31,
-        humidity: 5,
-        light: 917,
-        uv: 170,
-        time: 0
-    },
-    {
-        temp: 22,
-        humidity: 29,
-        light: 918,
-        uv: 170,
-        time: 60
-    },
-    {
-        temp: 27,
-        humidity: 10,
-        light: 918,
-        uv: 168,
-        time: 120
-    },
-    {
-        temp: 24,
-        humidity: 29,
-        light: 917,
-        uv: 170,
-        time: 180
-    },
-    {
-        temp: 20,
-        humidity: 40,
-        light: 918,
-        uv: 170,
-        time: 240
-    }
-];
-console.log(data); 
-*/
+const getUvTimeData = (data) => {
+    const finalData = [];
+    data.forEach((point) => {
+      finalData.push({ time: point.time, uv: point.uv });
+    });
+    return finalData;
+};
+
+const getTimesOutside = (data) => {
+    const outsideData = data.filter(point => point.uv > 1);
+    console.log(outsideData);
+    return outsideData;
+};
+
+/* function checkUV(outsideArray) {
+    outsideArray.forEach((point) => {
+        if (point.time == data.time) {
+            svg.append("rect")
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', 90)
+            .attr("class", "uvBlocks")
+            .style('fill', "yellow")
+            .style('fill-opacity', 0.3)
+            .attr('height', height);        }
+      });
+  } */
 
 (async () => {
-    // get CSV data
-    const data = await getCsvData();
+    const data = await getCsvData()
     console.log(data);
-  
+    const uvTimeData = getUvTimeData(data);
+    console.log(uvTimeData);
+    const outsideArray = getTimesOutside(uvTimeData);
+    console.log(outsideArray);
+
+
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 40, bottom: 40, left: 50},
+    var margin = {top: 30, right: 50, bottom: 40, left: 50},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -53,12 +45,12 @@ console.log(data);
     var temperature = d3.scaleLinear().range([height, 0]);
     var humidity = d3.scaleLinear().range([height, 0]);
 
-    // define the 1st line
+    // define the temperature line
     var tempLine = d3.line()
         .x(function(d) { return x(d.time); })
         .y(function(d) { return temperature(d.temp); });
 
-    // define the 2nd line
+    // define the humidity line
     var humidLine = d3.line()
         .x(function(d) { return x(d.time); })
         .y(function(d) { return humidity(d.humidity); });
@@ -84,19 +76,19 @@ console.log(data);
 
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.time; }));
-    temperature.domain([0, d3.max(data, function(d) {return Math.max(d.temp);})]);
+    temperature.domain([0, 40]);
     humidity.domain([0, 100]);
 
     // Add the tempLine path.
     svg.append("path")
-        .data(data)
+        .data([data])
         .attr("class", "line")
         .style("stroke", "red")
         .attr("d", tempLine);
 
     // Add the humidLine path.
     svg.append("path")
-        .data(data)
+        .data([data])
         .attr("class", "line")
         .style("stroke", "green")
         .attr("d", humidLine);
@@ -105,29 +97,45 @@ console.log(data);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
+        
 
     // Add the temperature axis
     svg.append("g")
         .attr("class", "axisRed")
-        .call(d3.axisLeft(temperature));
+        .call(d3.axisLeft(temperature))
+        .call(g => g.append("text")
+        .attr("x", -50)
+        .attr("y", -10)
+        .attr("fill", "black")
+        .attr("text-anchor", "start")
+        .text("Temperature (°C)"));
+
         
     // Add the humidity axis
     svg.append("g")
         .attr("class", "axisGreen")
         .attr("transform", "translate( " + width + ", 0 )")
-        .call(d3.axisRight(humidity));
+        .call(d3.axisRight(humidity))
+        .call(g => g.append("text")
+        .attr("x", -10)
+        .attr("y", -10)
+        .attr("fill", "black")
+        .attr("text-anchor", "start")
+        .text("% Humidity"));
 
     // Add the UV blocks
     var uvShiftX = 10;
-    var uvWidth = 20;
-    for (let i = 0; i < 10; i++) {
-        uvShiftX += 50;
-        svg.append("rect")
-                .attr('x', uvShiftX)
+    var uvWidth = 90;
+    
+    //data.forEach(checkUV(data, outsideArray));
+   // while (data.time == outsideArray.time) {
+       /* svg.append("rect")
+                .attr('x', 0)
                 .attr('y', 0)
                 .attr('width', uvWidth)
-                .style('fill', "grey")
+                .attr("class", "uvBlocks")
+                .style('fill', "yellow")
                 .style('fill-opacity', 0.3)
-                .attr('height', height);
-    }
+                .attr('height', height); */
+
 })();
