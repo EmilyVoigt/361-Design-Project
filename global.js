@@ -1,5 +1,5 @@
-const measurementInterval = 10; // interval between sensor readings in minutes
-const dataFileName = "fake_avg_day.csv"; // the file to read data from
+const measurementInterval = 1; // interval between sensor readings in minutes
+const dataFileName = "test_data.csv"; // the file to read data from
 
 const testTime = 1656683511185; //9am on Friday July 1, 2022
 
@@ -12,7 +12,8 @@ async function getCsvData() {
         humidity: +d.humidity,
         light: +d.light,
         uv: +d.uv,
-        time: new Date(testTime + (600000*i)), // add 10minutes to each time
+        time: new Date(+d.time*1000)
+        // add 10minutes to each time
         // time: new Date(+d.time)
         //TODO: add time
       };

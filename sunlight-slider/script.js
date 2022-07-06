@@ -3,7 +3,9 @@ console.log('loaded sunlight slider');
 const width = 500;
 const height = 500;
 const padding = 100;
-const maxValue = 120; // minutes of sunlight for image to be fully filled
+const maxValue = 90; // minutes of sunlight for image to be fully filled
+
+const dateToDisplay = new Date(2022, 6, 5);
 
 (async() => {
     const group = d3.select('svg.sunlight-slider')
@@ -58,7 +60,7 @@ const maxValue = 120; // minutes of sunlight for image to be fully filled
 async function getMinutesSunlight() {
     let minutesSunlight = 0;
 
-    const data = await getCsvDataForDate(new Date(2022, 6, 2));
+    const data = await getCsvDataForDate(dateToDisplay);
 
     data.forEach((dataRow) => {
         if (dataRow.uv > 1) {
