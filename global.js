@@ -1,7 +1,7 @@
 const measurementInterval = 1; // interval between sensor readings in minutes
 const dataFileName = "test_data.csv"; // the file to read data from
 
-const testTime = 1656683511185; //9am on Friday July 1, 2022
+const testTime = 1656507600000; //9am on Wednesday June 29
 
 // get CSV data, return as an array of objects
 async function getCsvData() {
@@ -23,7 +23,6 @@ async function getCsvData() {
 // takes in date obejct
 async function getCsvDataForDate(date) {
     const csvData = await getCsvData();
-
     const beginning = new Date(date.getFullYear(), date.getMonth(), date.getDate()).valueOf();
     const end = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).valueOf();
 
@@ -38,3 +37,28 @@ async function getCsvDataForDate(date) {
 
     return dailyValues;
 }
+
+function getDataDays(data){
+    let dates = []; 
+
+    data.forEach(point =>{
+        const curPointData = {
+            year: point.time.getFullYear(),
+            month: point.time.getMonth(),
+            date: point.time.getDate(),
+            day: point.time.getDay(),
+            key: `${point.time.getFullYear()}${point.time.getMonth()}${point.time.getDate()}`
+        }
+           const inArray = dates.find(point =>{
+            if (point.key === curPointData.key){
+                return true
+            }
+            return false
+        })
+        if (!inArray){
+            dates.push(curPointData)
+        }
+    })
+    return dates
+}
+
