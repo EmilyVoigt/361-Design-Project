@@ -140,3 +140,8 @@ select{
 .icon.classicon{
     background-color: var(--lavender);
 }
+
+.icon.humidicon{
+    background-color: var(--green);
+    border-radius: 8px;
+}
