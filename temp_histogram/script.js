@@ -16,7 +16,7 @@ document.querySelector(".temp_histogram").append(
     Plot.plot({
         x: {
             grid: true,
-            label: "Humidity"
+            label: "Temperature"
           },
           y: {  
             label: "Frequency",
@@ -25,7 +25,7 @@ document.querySelector(".temp_histogram").append(
         marks: [
           Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "pink", inset:0 , fillOpacity:0.3}),
           Plot.text(recData,{x: "centre", y: "height", fill: "black", text: d=> d.strang}),
-          Plot.rectY(testData, Plot.binX({y: "count"}, {x: "humidity", fill: "green", fillOpacity:0.8})),
+          Plot.rectY(testData, Plot.binX({y: "count"}, {x: "temp", fill: "green", fillOpacity:0.8})),
           Plot.ruleY([0])
         ]
       })
