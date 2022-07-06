@@ -1,24 +1,23 @@
 console.log('loaded schedule graph');
 
 // constants for formatting line graphs over the schedule image
-const imageWidth = 523;
-const imageHeight = 895;
-const margin = { top: 16, right: 27, bottom: 15, left: 15 };
+const imageWidth = 1193;
+const imageHeight = 1084;
+const margin = { top: 10, right: 10, bottom: 10, left: 10 };
 const scheduleTimeRange = {
   start: 8, // start time of graph on 24-hour clock
-  end: 16   // end time of graph on 24-hour clock
+  end: 18   // end time of graph on 24-hour clock
 }
 
 // note these formatting values are unit-scaled and multiplied by the dimensions
 // to update these values for a new schedule image, measure the pixel lengths using figma
 // and divide by the pixel size of the iamge
-const widthFactor = imageWidth / 523; // change to pixel width used for measurements
-const heightFactor = imageHeight / 895; // same here
+const widthFactor = imageWidth / 1193; // change to pixel width used for measurements
+const heightFactor = imageHeight / 1084; // same here
 
-const imageMargin = { top: 16 * heightFactor, right: 27 * widthFactor, bottom: 15 * heightFactor, left: 15 * widthFactor };
-const hourLength = 60 * widthFactor;
-const dayLength = 174 * heightFactor;
-const spaceBetweenGraphs = 0;
+const imageMargin = { top: 45 * heightFactor, right: 23 * widthFactor, bottom: 28.5 * heightFactor, left: 32 * widthFactor };
+const dayLength = 138.5 * heightFactor;
+const spaceBetweenGraphs = 80 * heightFactor;
 
 const svg = d3
   .select("svg")
@@ -31,7 +30,7 @@ const imageContainer = svg
   .attr('class', 'image-container');
 
 imageContainer.append('image')
-  .attr('xlink:href', "schedule-graph/schedule.png")
+  .attr('xlink:href', "schedule-graph/schedule.jpg")
   .attr('width', imageWidth)
   .attr('height', imageHeight)
   .attr('class', 'schedule-image');
