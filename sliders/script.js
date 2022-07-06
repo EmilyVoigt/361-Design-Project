@@ -6,6 +6,8 @@ const padding = 20;
 const width = 500;
 const height = 25;
 
+const dateToDisplay = new Date(2022, 6, 5);
+
 const tempGraphAttributes = {
     minValue: 0,
     minIdealValue: 21,
@@ -132,7 +134,7 @@ async function getSummaryData() {
     let avgTemp = 0;
     let avgHumidity = 0;
 
-    const data = await getCsvDataForDate(new Date(2022, 6, 2));
+    const data = await getCsvDataForDate(dateToDisplay);
 
     data.forEach((dataRow) => {
         avgTemp += dataRow.temp;
