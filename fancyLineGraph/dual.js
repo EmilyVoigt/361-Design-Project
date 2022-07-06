@@ -65,15 +65,6 @@ const getTimesOutside = (data) => {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    // format the data
-    /*
-    data.forEach(function(d) {
-        d.time = +d.time;
-        d.temp = +d.temp;
-        d.humidity = +d.humidity;
-    });
-    */
-
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.time; }));
     temperature.domain([0, 40]);
@@ -83,14 +74,14 @@ const getTimesOutside = (data) => {
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .style("stroke", "red")
+        .style("stroke", "orange")
         .attr("d", tempLine);
 
     // Add the humidLine path.
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .style("stroke", "green")
+        .style("stroke", "steelblue")
         .attr("d", humidLine);
 
     // Add the X Axis
@@ -125,17 +116,26 @@ const getTimesOutside = (data) => {
 
     // Add the UV blocks
     var uvShiftX = 10;
-    var uvWidth = 90;
+    var uvWidth = 60;
     
     //data.forEach(checkUV(data, outsideArray));
    // while (data.time == outsideArray.time) {
-       /* svg.append("rect")
-                .attr('x', 0)
-                .attr('y', 0)
-                .attr('width', uvWidth)
-                .attr("class", "uvBlocks")
-                .style('fill', "yellow")
-                .style('fill-opacity', 0.3)
-                .attr('height', height); */
+    svg.append("rect")
+        .attr('x', uvShiftX)
+        .attr('y', 0)
+        .attr('width', uvWidth)
+        .attr("class", "uvBlocks")
+        .style('fill', "yellow")
+        .style('fill-opacity', 0.3)
+        .attr('height', height);
+
+    svg.append("rect")
+        .attr('x', 90)
+        .attr('y', 0)
+        .attr('width', uvWidth)
+        .attr("class", "uvBlocks")
+        .style('fill', "yellow")
+        .style('fill-opacity', 0.3)
+        .attr('height', height);
 
 })();
