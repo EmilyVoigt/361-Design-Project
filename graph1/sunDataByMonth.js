@@ -16,6 +16,7 @@
 
 // console.log(formattedDays);
 
+//webscraped data is below: 
 const julyData = [
     {
       date: "Fri, Jul 1",
