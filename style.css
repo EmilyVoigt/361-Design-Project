@@ -8,6 +8,10 @@
     --lightgrey: #9499A9;
     --orange: #ED8000;
     --green: #90BBA9;
+
+    /* globals for radial line graph - do not remove */
+    --radialHalfHeight: 325px;
+    --radialHalfWidth: 325px;
 }
 
 

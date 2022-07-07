@@ -2,28 +2,30 @@
 const h = 650; //svg height
 const w = 650; //svg width
 const r = h / 2; //svg radius
-const ticks = [40, 400, 4000, 14000]; // one tick per lux
+
+const ticks = [40, 400, 4000, 14000]; // key data values identified - classroom brightness is roughly 400 lux, 14000 is about the max brightness value
 
 let hours = []; //store an array of 24 hours to populate graph
-for (let i = 0; i < 24; i++) {
+for (let i = 0; i < 24; i++) { //populate array
   hours.push(`${i}:00`);
 }
 
-const avgTimes = findAverageTime(summerData);
+const avgSunTimes = findAverageTime(summerData); //find average sunset/sunrise times from webscraped sunrise/set data per day
 // sunrise sunset times
 const sunTimes = [
   {
     season: "summer",
     end: {
-      hour: avgTimes.riseTime.hour,
-      minute: avgTimes.riseTime.minute,
+      hour: avgSunTimes.riseTime.hour,
+      minute: avgSunTimes.riseTime.minute,
     },
-    start: { hour: avgTimes.setTime.hour, minute: avgTimes.setTime.minute },
+    start: { hour: avgSunTimes.setTime.hour, minute: avgSunTimes.setTime.minute },
   },
 ];
 
 const timeToFract = (time) => {
-  //convert hour/minute time to fraction
+  //convert hour/minute time to hour / fraction 
+  // eg. 6:30 -> 6.5
   const minsToFract = time.minute / 60;
   const fract = time.hour + minsToFract;
   return fract;
@@ -31,8 +33,8 @@ const timeToFract = (time) => {
 
 const pieGenerator = (period) => {
   //convert time to fractions:
-  let startFract = timeToFract(period.start);
-  let endFract = timeToFract(period.end);
+  let startFract = timeToFract(period.start); //begin the pie at this angle
+  let endFract = timeToFract(period.end); //end the pie at this angle
 
   let startAngle = 0;
   if (startFract > endFract) {
@@ -52,21 +54,11 @@ svg.attr("height", h);
 const graphBase = svg.append("g").attr("class", "graphBase"); //radial graph lines group
 const hoursGroup = svg.append("g").attr("class", "hoursGroup"); //hours group
 
-//now, we want to map our data values to radial dist from center of chart
-//use linear scale
-//our svg is 800 * 800, so lets have our max point radius be 350 (with 50 px of extra space in case)
-
-//FUNCTIONS
-// const radialDist = d3
-//   .scaleLinear()
-//   .domain([0, 14000])
-//   .range([0, r - 50]); //set max range to radius - 50
-
+//map data values to radial distances from center of chart using a log scale
 let radialDist = d3
   .scaleLog()
-  .domain([1, 20000])
-  .range([0, r - 50]);
-  //switch our scale to a log scale
+  .domain([1, 20000]) //domain is from 1 to 20000 lux, minValue of dataset is 2 lux, max val is 14000 lux
+  .range([0, r - 50]); //range to map data to 
 
 const getSvgAngle = (angle, pxDist) => {
   let x = Math.sin(angle) * pxDist; //using pythagorean theorum to get x and y positions of each point
@@ -81,12 +73,12 @@ const getSvgAngle = (angle, pxDist) => {
 hours.forEach((hour, i) => {
   let angle = -(((2 * Math.PI) / hours.length) * i) - Math.PI; //get the angle of each hour by diving 2PI by num of hours, multiplying by i
   // subtract PI here to make 0:00 start at the top
-  let position = getSvgAngle(angle, r - 50);
-  let textPosition = getSvgAngle(angle, r - 25);
+  let position = getSvgAngle(angle, r - 50); //get x,y position of each hour from angle and radius 
+  let textPosition = getSvgAngle(angle, r - 25); //get text position using a slightly larger radius
 
   const hourGroup = hoursGroup.append("g").attr("class", "hourGroup");
 
-  hourGroup
+  hourGroup //append one line for each hour
     .append("line")
     .attr("x1", r) //start line at center
     .attr("y1", r)
@@ -95,8 +87,8 @@ hours.forEach((hour, i) => {
     .attr("fill", "none")
     .attr("stroke", "gray");
 
-  hourGroup
-    .append("text")
+  hourGroup 
+    .append("text") //append hour labels 
     .attr("class", "hourText")
     .attr("x", textPosition.x)
     .attr("y", textPosition.y)
@@ -105,19 +97,19 @@ hours.forEach((hour, i) => {
 
 ticks.forEach((tick) => {
   graphBase
-    .append("circle") //append a circle to the SVG
+    .append("circle") //append a circle to the SVG for each key data point identified above
     .attr("cx", r) //position of circle center x
     .attr("cy", r) //position of circle center y
     .attr("stroke", "gray")
     .attr("fill", "none")
-    .attr("r", radialDist(tick)); //create the circle using our radial scale
+    .attr("r", radialDist(tick)); //create the circle radius using our radial scale
 
   graphBase
-    .append("text")
+    .append("text") //append circle labels
     .attr("class", "tickLabel")
     .attr("x", r)
     .attr("y", r - radialDist(tick) - 10) // r - dist because we need biggest on outside
-    .text(`${tick}`);
+    .text(`${tick} lux`);
 });
 
 const line = d3
@@ -125,7 +117,7 @@ const line = d3
   .x((d) => d.x)
   .y((d) => d.y);
 
-//reusable function to draw class time pie slices
+//reusable function to draw time pie slices (used for class time sections)
 const drawClassPie = (time) => {
   svg
     .append("path")
@@ -148,16 +140,17 @@ let curClassTime = classTimes[1];
 drawClassPie(curClassTime.morning); //draw initial class pies
 drawClassPie(curClassTime.afternoon);
 
-//const selectTag = document.querySelector("select");
-//select tag is removed, as it made for confusing UX
-// selectTag.addEventListener("input", () => {
+// select tag was moved in interest of maintaining the clarity of the dashboard as a whole, but functional components remain for future development 
+// 
+//  const selectTag = document.querySelector("select");
+//  selectTag.addEventListener("input", () => {
 //   curClassTime = classTimes[selectTag.value];
 //   d3.selectAll(".classArc").remove(); //remove prev. class pies
 //   drawClassPie(curClassTime.morning); //add new class pies
 //   drawClassPie(curClassTime.afternoon);
 // });
 
-//get point coords using average data for points
+//get point coords from average data for points
 const getPointCoords = (data_point) => {
   let coords = [];
   hours.forEach((hour, i) => {
@@ -172,11 +165,11 @@ const getPointCoords = (data_point) => {
 //get co-ords for actual line directly from our CSV data
 const getLinePointCoords = (dataSet) => {
   let coords = [];
-  const maxPoints = 24 * 60;
+  const maxPoints = 24 * 60; //max amount of values in array is the number of minutes in a day, as measurment frequency is once per minute
   dataSet.forEach((point) => {
-    const pointTimeFract = point.time.getHours() + point.time.getMinutes() / 60;
-    let angle = -(((2 * Math.PI) / hours.length) * pointTimeFract) - Math.PI;
-    let pxLength = radialDist(point.light);
+    const pointTimeFract = point.time.getHours() + point.time.getMinutes() / 60; //find time fraction
+    let angle = -(((2 * Math.PI) / hours.length) * pointTimeFract) - Math.PI; //find angle from time fraction
+    let pxLength = radialDist(point.light); // scale light value to radial axis
     let coordPos = getSvgAngle(angle, pxLength);
     if (coords.length < maxPoints) {
       coords.push({ x: coordPos.x, y: coordPos.y, value: point.light });
@@ -196,6 +189,8 @@ const getLinePointCoords = (dataSet) => {
 };
 
 const filterInvalidValues = (array)=>{
+// filter invalid data points (points for which no time data exists) from data set to be plotted
+// this occurs as a result of use of log scale - if light value is 0, log(0) is invalid, so filtering the invalid values
   const finalArray = []
   array.forEach((point, i) =>{
     if (point.value !== 0){
@@ -217,13 +212,13 @@ svg
       .outerRadius(r - 50) //leave
       .startAngle(pieGenerator(sunTimes[0]).start) //start arc when sun sets
       .endAngle(pieGenerator(sunTimes[0]).end) //end arc when sun rises
-    // .startAngle(0)
   )
   .attr("fill", "grey")
   .attr("stroke", "none");
 
 //create a div that we can use for our tooltip
 
+//append a div to the page to act as the tooltip when hovering data points
 var tooltip = d3
   .select("body")
   .append("div")
@@ -231,22 +226,14 @@ var tooltip = d3
   .style("opacity", 0);
 
 
-
-
 //data collection and processing is async
 (async () => {
   // get CSV data
   const dataDate = new Date(2022, 06, 05);
-  let csvData = await getCsvDataForDate(dataDate);
+  let csvData = await getCsvDataForDate(dataDate); //get data only for a specific date 
   let d = dataHourAvg(csvData);
-  let coordinates = filterInvalidValues(getPointCoords(d));
-    
+  let coordinates = filterInvalidValues(getPointCoords(d)); //remove NaN values caused by invalid logScale results
   let coordinates2 = getLinePointCoords(csvData);
-  console.log(coordinates)
-
-  // let extents = d3.extent(csvData, d =>{
-  //   return d.light
-  // })
 
   //draw the path element
   svg
@@ -263,7 +250,7 @@ var tooltip = d3
   const pointsGroup = svg.append("g").attr("class", "pointsGroup");
 
   pointsGroup
-    .selectAll("circle")
+    .selectAll("circle") //append circles for averages of data at each hour 
     .data(coordinates)
     .enter()
     .append("circle")
@@ -287,17 +274,14 @@ var tooltip = d3
 
     //add hovers
     .on("mouseover", (event, d) => {
-      // d3.select(this).transition().duration("50").attr("opacity", "0.3");
-      let toolTipNum = Math.floor(d.value);
+      let toolTipNum = Math.floor(d.value); //set tooltip number to currently hovered point
       tooltip
         .html("average light level: " + toolTipNum.toString() + " lux")
         .style("left", event.pageX + 10 + "px")
         .style("top", event.pageY - 15 + "px");
-
       tooltip.transition().duration("50").style("opacity", "1");
     })
-    .on("mouseout", function (d, i) {
-      // d3.select(this).transition().duration("50").attr("opacity", "1");
+    .on("mouseout", () => { //on mouse out, remove tooltip
       tooltip.transition().duration("50").style("opacity", "0");
     });
 })();

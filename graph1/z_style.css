@@ -1,17 +1,7 @@
-:root{
-    --svgHeight: 650px;
-    --svgWidth: 650px; 
-
-    --halfHeight: 325px;
-    --halfWidth: 325px;
-
-}
 
 body{
     background-color: #fff;
     font-family: Arial, Helvetica, sans-serif;
-    overflow-y: hidden;
-    overflow-x: hidden;
 }
 
 text.hourText{
@@ -45,13 +35,13 @@ circle.lightPoint:hover{
 }
 
 path.sunArc{
-    transform: translate(var(--halfWidth), var(--halfHeight));
+    transform: translate(var(--radialHalfWidth), var(--radialHalfHeight));
     opacity: 0.3;
     fill: var(--lightgrey);
 }
 
 path.classArc{
-    transform: translate(var(--halfWidth), var(--halfHeight));
+    transform: translate(var(--radialHalfWidth), var(--radialHalfHeight));
     opacity: 0.5;
     fill: var(--lavender);
     transition: all 0.2s ease-in-out;
@@ -67,6 +57,10 @@ svg{
 h1{
     font-size: 16px;
     text-align: center;
+}
+
+h2{
+    font-size: 14px;
 }
 
 
@@ -105,7 +99,6 @@ select{
 }
 
 .legend{
-    width: 100%;
     border: solid 1px var(--text);
     padding: 10px;
 }
@@ -144,4 +137,22 @@ select{
 .icon.humidicon{
     background-color: var(--green);
     border-radius: 8px;
+}
+
+/* set media query to prevent legend and map from overlapping */
+
+@media (max-width:1148px) {
+    .info{
+        left: 2%;
+    }
+    
+}
+
+@media(max-width: 940px){
+    .info{
+        position: relative;
+        left: 0%;
+        max-width: 300px;
+    }
+
 }
