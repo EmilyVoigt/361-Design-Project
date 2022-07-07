@@ -31,8 +31,7 @@ body{
 body.admin{
 background-color: #0E1116;
 color: #ffffff;
-font-family: "Times New Roman", "Times", serif !important;
-
+font-family: "Noto Sans", sans-serif;
 }
 
 body.schedule{
