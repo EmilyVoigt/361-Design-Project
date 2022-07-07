@@ -73,14 +73,12 @@ const getTimesOutside = (data) => {
     svg.append("path")
         .data([data])
         .attr("class", "templine")
-       // .style("stroke", "#C21930")
         .attr("d", tempLine);
 
     // Add the humidLine path
     svg.append("path")
         .data([data])
         .attr("class", "humidline")
-        //.style("stroke", "#638BB3")
         .attr("d", humidLine);
 
     // Add the x axis

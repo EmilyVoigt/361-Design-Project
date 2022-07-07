@@ -39,10 +39,6 @@ path {
   stroke: lightgrey;
 }
 
-.x.axis .minor {
-  stroke-opacity: .5;
-}
-
 .x.axis path {
   display: none;
 }
