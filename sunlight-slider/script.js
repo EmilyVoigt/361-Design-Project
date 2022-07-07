@@ -1,11 +1,9 @@
 console.log('loaded sunlight slider');
 
-const width = 500;
-const height = 500;
-const padding = 100;
-const idealValue = 90; // minutes of sunlight for image to be fully filled
-
-const dateToDisplay = new Date(2022, 6, 5);
+const sunWidth = 350;
+const sunHeight = 350;
+const sunPadding = 20;
+const outsideIdealValue = 90; // minutes of sunlight for image to be fully filled
 
 const messages = [
     {
@@ -13,64 +11,64 @@ const messages = [
         message: "You were low on time outdoors today. Try to get outside!"
     },
     {
-        threshold: idealValue / 3,
+        threshold: outsideIdealValue / 3,
         message: "You were almost halfway there. Keep it up! "
     },
     {
-        threshold: idealValue / 2,
+        threshold: outsideIdealValue / 2,
         message: "You almost made your goal! Great job!"
     },
     {
-        threshold: idealValue,
+        threshold: outsideIdealValue,
         message: "Congratulations! You did it!"
     }
 ];
 
 (async() => {
     const group = d3.select('svg.sunlight-slider')
-    .attr('width', width + padding)
-    .attr('height', height + padding)
-    .append('g')
-    .attr('transform', `translate(5,5)`);
+        .attr('width', sunWidth + sunPadding*4)
+        .attr('height', sunHeight + sunPadding*2)
+        .append('g')
+        .attr('transform', `translate(5,20)`);
 
     const minutesSunlight = await getMinutesSunlight();
 
     const scale = d3.scaleLinear()
-        .domain([idealValue, 0])
-        .range([0, height])
+        .domain([outsideIdealValue, 0])
+        .range([0, sunHeight])
 
     // title
     group.append('text')
-        .attr('x', width/2)
-        .attr('y', padding/8)
+        .attr('x', sunWidth/2)
+        .attr('y', sunPadding/8)
         .attr('class', 'title')
         .text('Minutes in the Sun Today');
 
     const sliderGroup = group.append('g')
-        .attr('transform', `translate(0, ${padding/4})`);
+        .attr('transform', `translate(0, ${sunPadding/4})`);
 
     // background filled image
     sliderGroup.append('image')
         .attr('xlink:href', "sunlight-slider/sun-fill.png")
-        .attr('width', width);
+        .attr('width', sunWidth);
 
     // white rect blocking some of the filled image
     sliderGroup.append('rect')
-        .attr('width', width)
+        .attr('width', sunWidth)
         .attr('height', (scale(minutesSunlight) < 0) ? 0 : scale(minutesSunlight))
         .attr('fill', 'white');
 
     // the outline of the image
     sliderGroup.append('image')
         .attr('xlink:href', "sunlight-slider/sun-outline.png")
-        .attr('width', width);
+        .attr('width', sunWidth);
 
     // y-axis title
     sliderGroup.append('g')
-        .attr('transform', `translate(${width + padding/4},0)`)
+        .attr('transform', `translate(${sunWidth + sunPadding/4},0)`)
         .call(d3.axisRight(scale))
         .append('text')
-        .attr('transform', `translate(${padding/2},${height/2})rotate(-90)`)
+        .attr('transform', `translate(${sunPadding*2},${sunHeight/2})rotate(-90)`)
         .text('Minutes of Sunlight')
         .attr('class', 'title');
 

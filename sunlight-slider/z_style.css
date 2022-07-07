@@ -7,14 +7,14 @@ text {
     text-anchor: middle;
 }
 
-.container {
+.sunlight-slider-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-right: 40px;
 }
 
 .message {
-    min-width: 40%;
-
+    text-align: center;
 }
