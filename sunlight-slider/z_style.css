@@ -18,3 +18,7 @@ text {
 .message {
     text-align: center;
 }
+
+rect.sun-fill {
+    fill: var(--sun-dashboard-background);
+}

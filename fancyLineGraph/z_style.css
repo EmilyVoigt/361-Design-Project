@@ -6,7 +6,7 @@ body{
 
 
 rect.outside-blocks{
-    fill: var(--yellow);
+    fill: var(--sun-dashboard-light);
     stroke: transparent;
     outline: none;
     fill-opacity: 0.3;
@@ -25,12 +25,12 @@ path {
 }
 
 .humidline {
-    stroke: var(--green);
+    stroke: var(--sun-dashboard-humidity);
     stroke-width: 2px;
 }
 
 .templine {
-    stroke: var(--orange);
+    stroke: var(--sun-dashboard-temperature);
     stroke-width: 2px;
 }
 
