@@ -61,7 +61,6 @@ path {
     top: 20px;
     left: 10%;
     font-size: 12px;
-    background-color: var(--background);
     max-width: 150px;
 }
 .hoverInfo{
@@ -86,7 +85,7 @@ path {
 }
 
 .icon.tempicon{
-    background-color: #Ff800c;
+    background-color: var(--sun-dashboard-temperature);
     border-radius: 8px;
 }
 
@@ -95,7 +94,7 @@ path {
 }
 
 .icon.humidicon{
-    background-color: #25b3be;
+    background-color: var(--sun-dashboard-humidity);
     border-radius: 8px;
 }
 
