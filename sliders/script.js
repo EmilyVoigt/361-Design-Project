@@ -14,7 +14,7 @@ const tempGraphAttributes = {
     maxIdealValue: 26,
     maxValue: 38,
     title: "Average Temperature",
-    xAxisTitle: 'Temperature (\u2103)',
+    xAxisTitle: 'Temperature (°C)',
     id: 'temperature-slider'
 }
 

@@ -41,8 +41,8 @@ const pointsToPlot=[
         name: "temperature",
         x: 0.7, 
         y: 0.45,
-        desc: "A temperature of 24 \u2103 is recommended for student learning environments [4]. "
-            + "Every degree celsius increase above 25 \u2103 is associated with an average of 2% "
+        desc: "A temperature of 24 °C is recommended for student learning environments [4]. "
+            + "Every degree celsius increase above 25 °C is associated with an average of 2% "
             + "decrease in performance [5]. Symptoms of mental health disorders are also "
             + "exacerbated by high indoor temperatures [6]."
     },
