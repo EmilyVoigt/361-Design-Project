@@ -3,6 +3,8 @@ const dataFileName = "test_data.csv"; // the file to read data from
 
 const testTime = 1656507600000; //9am on Wednesday June 29
 
+const dateToDisplay = new Date(2022, 6, 5); // date to display on the sun-prototype dashboard
+
 // get CSV data, return as an array of objects
 async function getCsvData() {
     const csvData = d3.csv(`https://emilyvoigt.github.io/361-Design-Project/data/${dataFileName}`, function (d, i) {
