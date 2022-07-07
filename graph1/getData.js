@@ -1,5 +1,4 @@
 //function to average CSV light data by hour for radial graph
-//this can be changed very easily to be by month if needed for other graohs
 const dataHourAvg = (values) => {
   const averagesArray = []; //create blank array
   for (let i = 0; i < 24; i++) {
@@ -11,12 +10,12 @@ const dataHourAvg = (values) => {
   } //fill array with blank desired data structure
 
   values.forEach((d, i) => {
-    //TODO: add in real time vals
     let pointHour = d.time.getHours(); //get hour value of point
     const pointMinute = d.time.getMinutes();
     const pointLightValue = d.light;
 
-    //switch to showing averages for the half hour before and after the point, rather than for the hour after
+    //if minutes is greater than 30, increase the hour by one
+    //this allows data to average by half hour before and after the point, rather than for the whole hour after
     if (pointMinute > 30){
       pointHour ++;
     }

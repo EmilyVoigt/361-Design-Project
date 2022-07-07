@@ -148,15 +148,16 @@ document.querySelector(".light_histogram").append(
         x: {
             grid: true,
             label: "Light"
+            
           },
           y: {  
             label: "Frequency",
             grid: true
           },
         marks: [
-          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "pink", inset:0 , fillOpacity:0.3}),
-          Plot.text(recData,{x: "centre", y: "height", fill: "red", fillOpacity:1.0, text: d=> d.strang}),
-          Plot.rectY(insideData, Plot.binX({y: "count"}, {x: "light", fill: "green", fillOpacity:0.8})),
+          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:1.0}),
+          Plot.text(recData,{x: "centre", y: "height", fill: "white", fillOpacity:1.0, text: d=> d.strang}),
+          Plot.rectY(insideData, Plot.binX({y: "count"}, {x: "light", fill: 'white', fillOpacity:0.8})),
           Plot.ruleY([0])
         ]
       })

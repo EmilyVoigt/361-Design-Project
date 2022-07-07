@@ -1,0 +1,72 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+
+rect.uvBlocks{
+    fill: var(--yellow);
+    stroke: transparent;
+    outline: none;
+    fill-opacity: 0.3;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+
+path {
+    stroke-width: 1;
+    fill: none;
+}
+
+.humidline {
+    stroke: var(--green);
+    stroke-width: 2px;
+}
+
+.templine {
+    stroke: var(--orange);
+    stroke-width: 2px;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis line {
+  stroke: lightgrey;
+}
+
+.x.axis .minor {
+  stroke-opacity: .5;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.x.axis text {
+    font-size: 14;
+}
+
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
+}
+
+.y.axis text {
+    font-size: 14;
+}
+
+.y.axisRight text {
+    fill: orange;
+}
+
+.y.axisLeft text {
+    fill: steelblue;
+}

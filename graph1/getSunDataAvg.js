@@ -1,8 +1,10 @@
-
-// const summerData = julyData.concat(augustData, juneData.slice(20, 30), septemberData.slice(0, 22))
 const summerData = [...juneData.slice(20, 30), ...julyData, ...augustData, ...septemberData.slice(0, 22)];
+//combine webscraped dates for all summer dates 
+
 
 const stringTimeToArray = (stringTime)=>{
+    // inputs: a string date format
+    //returns: the same date and time, formatted as an array to make data useable in our code
     let newTime = stringTime.split(":")
     let lastSplit = newTime[2].split(' ')
     newTime = [...newTime.splice(0,2), ...lastSplit]
@@ -17,13 +19,14 @@ const stringTimeToArray = (stringTime)=>{
     }
 
     newTime = newTime.splice(0,2) //remove am/pm string and second value - we don't need either
-
     return newTime
 }
 
 const findAverageTime = (seasonData)=>{
-    let totalRiseMins = 0 
-    let totalSetMins = 0
+    //input: array of all sunrise / sunset values for a season
+    //return: average sunrise and sunset time for summer as an object containing the hour and minute value
+    let totalSunriseMins = 0 
+    let totalSunsetMins = 0
 
     seasonData.forEach(day =>{
         let sunrise = stringTimeToArray(day.sunrise)
@@ -33,18 +36,18 @@ const findAverageTime = (seasonData)=>{
         sunrise[0] *= 60 //convert hour to mins 
         sunset[0] *= 60 
 
-        totalRiseMins += sunrise[0] + sunrise[1]
-        totalSetMins += sunset[0] + sunset[1]
+        totalSunriseMins += sunrise[0] + sunrise[1] // add all minutes to total rise time
+        totalSunsetMins += sunset[0] + sunset[1]
     })
 
-    const riseAvgTime = totalRiseMins / seasonData.length
-    const setAvgTime = totalSetMins / seasonData.length
-    const riseHour = Math.floor(riseAvgTime/60)
-    const riseMin = riseAvgTime % 60
+    const riseAvgTime = totalSunriseMins / seasonData.length
+    const setAvgTime = totalSunsetMins / seasonData.length
+    const sunriseHour = Math.floor(riseAvgTime/60)
+    const sunriseMin = riseAvgTime % 60
 
-    const setHour = Math.floor(setAvgTime / 60)
-    const setMin = setAvgTime % 60
-    return {riseTime : {hour: riseHour, minute: riseMin}, setTime: {hour: setHour, minute: setMin}}
+    const sunsetHour = Math.floor(setAvgTime / 60)
+    const sunsetMin = setAvgTime % 60
+    return {riseTime : {hour: sunriseHour, minute: sunriseMin}, setTime: {hour: sunsetHour, minute: sunsetMin}}
 }
 
 
