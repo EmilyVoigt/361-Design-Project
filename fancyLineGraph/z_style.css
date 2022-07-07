@@ -5,7 +5,7 @@ body{
 }
 
 
-rect.uvBlocks{
+rect.outside-blocks{
     fill: var(--yellow);
     stroke: transparent;
     outline: none;
