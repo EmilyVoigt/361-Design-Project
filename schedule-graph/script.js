@@ -3,7 +3,7 @@ console.log('loaded schedule graph');
 // constants for formatting line graphs over the schedule image
 const imageWidth = 1193;
 const imageHeight = 1084;
-const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+const margin = { top: imageWidth/50, right: imageWidth/50, bottom: imageWidth/50, left: imageWidth/20 };
 const scheduleTimeRange = {
   start: 8, // start time of graph on 24-hour clock
   end: 18   // end time of graph on 24-hour clock
@@ -19,8 +19,14 @@ const imageMargin = { top: 45 * heightFactor, right: 23 * widthFactor, bottom: 2
 const dayLength = 138.5 * heightFactor;
 const spaceBetweenGraphs = 80 * heightFactor;
 
+const axisLabels = [
+  'Light Intensity (lux)',  // index 0 = light
+  'Temperature (\u2103)',        // index 1 = temperature
+  'Relative Humidity (%)'   // index 2 = humidity 
+];
+
 const svg = d3
-  .select("svg")
+  .select("svg.graph")
   .attr("width", imageWidth + margin.left + margin.right)
   .attr("height", imageHeight + margin.top + margin.bottom + 5 * spaceBetweenGraphs);
 
@@ -66,6 +72,7 @@ let dataSelectVal = 0;
     d3.selectAll(".dataPath").remove(); // remove all existing graphs
     d3.selectAll(".left-axis").remove(); //remove left axis
     d3.selectAll(".bottom-axis").remove(); //remove bottom axis
+    d3.selectAll(".y-label").remove(); // remove y-axis label
 
     if (dataSelectVal == 0) {
       drawAllGraphs(lightTimeData);
@@ -126,6 +133,12 @@ function drawData (data, dataSelectVal, index, curDay) {
     ])
     .range([dayLength, 0]);
   graphGroup.append("g").attr("class", "left-axis").call(d3.axisLeft(y));
+
+  // draw y axis title
+  graphGroup.append('text')
+    .attr('transform', `translate(${-margin.left},${dayLength/2})rotate(-90)`)
+    .text(axisLabels[dataSelectVal])
+    .attr('class', 'y-label');
 
   //draw x axis
   let x = d3
