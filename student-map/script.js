@@ -14,7 +14,7 @@ const pointsToPlot=[
         name: "home-1",
         x: 0.15,
         y: 0.4,
-        desc: "The student wakes up, gets ready, and leaves their house early enough to make it to their 8:30AM class. They listen to some music, and walk quickly on their way to school."
+        desc: "The student wakes up, gets ready, and leaves their house early enough to make it to their morning class. They listen to some music, and walk quickly on their way to school."
     },
     {
         name: "e5-1",
@@ -32,13 +32,13 @@ const pointsToPlot=[
         name: "e5-2",
         x: 0.5, 
         y: 0.52,
-        desc: "Afternoon classes resume at 1:30pm. The student returns to their seat in the same classroom for the afternoon."
+        desc: "Afternoon classes resume at 1:30PM. The student returns to their seat in the same classroom for the afternoon."
     },
     {
         name: "dc",
         x: 0.62,
         y: 0.34,
-        desc: "At 4:00pm, the student heads to the DC Library to study. It’s busy, and difficult to find a seat, especially near a window. The individual study desks are quiet, and once the student finds a desk, they begin their work."
+        desc: "At 4:00PM, the student heads to the DC Library to study. It’s busy, and difficult to find a seat, especially near a window. The individual study desks are quiet, and once the student finds a desk, they begin their work."
     },
     {
         name: "pac",
