@@ -28,7 +28,7 @@ const humGraphAttributes = {
 
 // get summary values
 const svg = d3.select('svg.sliders')
-    .attr('width', 2 * slidersWidth + slidersPadding)
+    .attr('width', slidersWidth + slidersPadding)
     .attr('height', slidersHeight * 15);
 
 const tempGroup = svg.append('g')
