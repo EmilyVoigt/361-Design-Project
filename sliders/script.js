@@ -44,11 +44,11 @@ const humGroup = svg.append('g')
 (async() => {
     const [avgTemp, avgHumidity] = await getSummaryData();
         
-    drawSlider(tempGroup, tempGraphAttributes, avgTemp);
-    drawSlider(humGroup, humGraphAttributes, avgHumidity);
+    drawSlider('temperature', tempGroup, tempGraphAttributes, avgTemp);
+    drawSlider('humidity', humGroup, humGraphAttributes, avgHumidity);
 })();
 
-function drawSlider(group, attributes, avgValue) {
+function drawSlider(name, group, attributes, avgValue) {
     const scale = d3.scaleLinear()
         .domain([attributes.minValue, attributes.maxValue])
         .range([0, slidersWidth]);
@@ -64,14 +64,14 @@ function drawSlider(group, attributes, avgValue) {
 
     const idealRange = sliderGroup
         .append('g')
-        .attr('id', 'ideal-range')
+        .attr('id', `ideal-range-${name}`)
         .attr("transform", `translate(${scale(attributes.minIdealValue)},0)`)
 
     // the ideal range bar
     idealRange.append('rect')
         .attr('width', scale(attributes.maxIdealValue) - scale(attributes.minIdealValue))
         .attr('height', slidersHeight)
-        .attr('class', 'ideal-range');
+        .attr('class', `ideal-range-${name}`);
 
     // the bottom axis
     sliderGroup.append('g')

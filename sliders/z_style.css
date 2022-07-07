@@ -18,9 +18,14 @@ text {
     fill: transparent;
 }
 
-.ideal-range {
+.ideal-range-temperature {
     stroke: transparent;
-    fill: var(--green);
+    fill: var(--sun-dashboard-temperature);
+}
+
+.ideal-range-humidity {
+    stroke: transparent;
+    fill: var(--sun-dashboard-humidity);
 }
 
 .pointer {

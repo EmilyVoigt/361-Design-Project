@@ -56,7 +56,7 @@ const messages = [
     sliderGroup.append('rect')
         .attr('width', sunWidth)
         .attr('height', (scale(minutesSunlight) < 0) ? 0 : scale(minutesSunlight))
-        .attr('fill', 'white');
+        .attr('class', 'sun-fill');
 
     // the outline of the image
     sliderGroup.append('image')
