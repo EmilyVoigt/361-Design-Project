@@ -1,3 +1,8 @@
+@font-face{
+    font-family: Novo Sans;
+    src: url('fonts/NotoSans-Bold.ttf'), url('fonts/NotoSans-Regular.ttf') 
+}
+
 :root{
     /* CSS VARIABLES TO MAKE GRAPHS COHESIVE */
     --background: #ffffff;
@@ -8,6 +13,10 @@
     --lightgrey: #9499A9;
     --orange: #ED8000;
     --green: #90BBA9;
+    --sun-dashboard-background: #FEF9EF;
+    --sun-dashboard-temperature: #FE6973;
+    --sun-dashboard-humidity: #227C9D;
+    --sun-dashboard-light: #FFCB77;
 
     /* globals for radial line graph - do not remove */
     --radialHalfHeight: 325px;
@@ -22,12 +31,10 @@ body{
     width: min-content;
     margin: auto;
 }
-
 body.admin{
 background-color: #0E1116;
 color: #ffffff;
-font-family: "Times New Roman", "Times", serif !important;
-
+font-family: "Noto Sans", sans-serif;
 }
 
 body.schedule{
@@ -36,5 +43,6 @@ body.schedule{
 }
 
 body.sun{
-
+    background-color: var(--sun-dashboard-background);
+    font-family: 'Novo Sans', sans-serif;
 }

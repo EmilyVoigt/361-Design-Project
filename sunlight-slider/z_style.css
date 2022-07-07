@@ -6,3 +6,19 @@ text {
 .title {
     text-anchor: middle;
 }
+
+.sunlight-slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 40px;
+}
+
+.message {
+    text-align: center;
+}
+
+rect.sun-fill {
+    fill: var(--sun-dashboard-background);
+}
