@@ -2,11 +2,9 @@ console.log("loaded temperature slider");
 
 const secInterval = 300;
 
-const padding = 20;
-const width = 500;
-const height = 25;
-
-const dateToDisplay = new Date(2022, 6, 5);
+const slidersPadding = 30;
+const slidersWidth = 500;
+const slidersHeight = 25;
 
 const tempGraphAttributes = {
     minValue: 0,
@@ -28,40 +26,10 @@ const humGraphAttributes = {
     id: 'humidity-slider'
 }
 
-const data = [
-    {
-        temp: 31,
-        humidity: 29,
-        light: 917,
-        uv: 170,
-        time: 0
-    },
-    {
-        temp: 31,
-        humidity: 29,
-        light: 918,
-        uv: 170,
-        time: 60
-    },
-    {
-        temp: 32,
-        humidity: 29,
-        light: 918,
-        uv: 168,
-        time: 120
-    },
-    {
-        temp: 32,
-        humidity: 28,
-        light: 917, 
-        uv: 0,
-        time: 180
-    }
-];
-
 // get summary values
 const svg = d3.select('svg.sliders')
-    .attr('width', 2 * width + padding);
+    .attr('width', slidersWidth + slidersPadding)
+    .attr('height', slidersHeight * 15);
 
 const tempGroup = svg.append('g')
     .attr('id', 'temp-slider')
@@ -71,10 +39,10 @@ const tempGroup = svg.append('g')
 const humGroup = svg.append('g')
     .attr('id', 'humidity-slider')
     .attr('class', 'slider')
-    .attr('transform', `translate(${width + padding},0)`);
+    .attr('transform', `translate(5,${slidersHeight + slidersPadding * 5})`);
 
 (async() => {
-    const [avgTemp, avgHumidity] = await getSummaryData(data);
+    const [avgTemp, avgHumidity] = await getSummaryData();
         
     drawSlider(tempGroup, tempGraphAttributes, avgTemp);
     drawSlider(humGroup, humGraphAttributes, avgHumidity);
@@ -83,16 +51,16 @@ const humGroup = svg.append('g')
 function drawSlider(group, attributes, avgValue) {
     const scale = d3.scaleLinear()
         .domain([attributes.minValue, attributes.maxValue])
-        .range([0, width]);
+        .range([0, slidersWidth]);
     
     group.append('text')
-        .attr('x', width/2)
-        .attr('y', padding)
+        .attr('x', slidersWidth/2)
+        .attr('y', slidersPadding)
         .attr('class', 'title')
         .text(attributes.title);
     
     const sliderGroup = group.append('g')
-        .attr("transform", `translate(0,${padding * 2})`)
+        .attr("transform", `translate(0,${slidersPadding * 2})`)
 
     const idealRange = sliderGroup
         .append('g')
@@ -102,17 +70,17 @@ function drawSlider(group, attributes, avgValue) {
     // the ideal range bar
     idealRange.append('rect')
         .attr('width', scale(attributes.maxIdealValue) - scale(attributes.minIdealValue))
-        .attr('height', height)
+        .attr('height', slidersHeight)
         .attr('class', 'ideal-range');
 
-    // the axis
+    // the bottom axis
     sliderGroup.append('g')
-        .attr('transform', `translate(0, ${height})`)
+        .attr('transform', `translate(0, ${slidersHeight})`)
         .call(d3.axisBottom(scale))
         .append('text')
         .text(attributes.xAxisTitle)
-        .attr('x', width/2)
-        .attr('y', padding * 1.5);
+        .attr('x', slidersWidth/2)
+        .attr('y', slidersPadding * 1.5);
 
     // the slider box
     sliderGroup.append("rect")
@@ -120,14 +88,14 @@ function drawSlider(group, attributes, avgValue) {
         .attr('y', 0)
         .attr('rx', 5)
         .attr('ry', 5)
-        .attr('width', width)
-        .attr('height', height);
+        .attr('width', slidersWidth)
+        .attr('height', slidersHeight);
 
     // draw the pointer at avgTemp
     sliderGroup.append('path')
         .attr('d', d3.symbol().type(d3.symbolDiamond).size(300))
         .attr('class', 'pointer')
-        .attr('transform', `translate(${scale(avgValue)}, ${height/2})`);
+        .attr('transform', `translate(${scale(avgValue)}, ${slidersHeight/2})`);
 }
 
 async function getSummaryData() {

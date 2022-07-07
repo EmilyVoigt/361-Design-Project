@@ -1,5 +1,3 @@
-console.log('loaded schedule graph');
-
 // constants for formatting line graphs over the schedule image
 const imageWidth = 1193;
 const imageHeight = 1084;
@@ -45,16 +43,16 @@ const graphContainer = imageContainer.append("g")
   .attr("class", "graph-container")
   .attr("transform", `translate(${imageMargin.left}, ${imageMargin.top})`);
 
+//select dropdown to allow user to select which data they see, and set initial value to 0 (temperature)
 const dataSelectTag = document.querySelector("select.dataSelect");
-
 let dataSelectVal = 0;
 
 (async () => {
-  let csvData = await getCsvData();
-  const lightTimeData = getLightTimeData(csvData);
+  let csvData = await getCsvData(); //get data 
+  const lightTimeData = getLightTimeData(csvData); //filter data into only light, temp, or humidity sets
   const tempTimeData = getTempTimeData(csvData);
   const humidityTimeData = getHumidityTimeData(csvData);
-  const mappedDays = getDataDays(csvData); // array of days we actually have data for
+  const mappedDays = getDataDays(csvData); // array of days we have data for
 
   const drawAllGraphs = (graphData) => {
     for (let i = 0; i < mappedDays.length; i++) {
@@ -146,14 +144,13 @@ function drawData (data, dataSelectVal, index, curDay) {
     .domain([startTime, endTime])
     .range([0, imageWidth - imageMargin.left - imageMargin.right]);
 
-  //draw bottom axis
   graphGroup
     .append("g")
     .attr("class", "bottom-axis")
     .attr("transform", `translate(0, ${dayLength})`)
     .call(d3.axisBottom(x));
 
-  //reusable draw data path function
+  // draw data line
   graphGroup
     .append("path")
     .datum(dateData) //input an array of light and time here
