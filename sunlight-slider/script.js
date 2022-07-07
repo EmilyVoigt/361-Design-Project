@@ -3,9 +3,28 @@ console.log('loaded sunlight slider');
 const width = 500;
 const height = 500;
 const padding = 100;
-const maxValue = 90; // minutes of sunlight for image to be fully filled
+const idealValue = 90; // minutes of sunlight for image to be fully filled
 
 const dateToDisplay = new Date(2022, 6, 5);
+
+const messages = [
+    {
+        threshold: 0,   // the number of minutes when this message will start to appear
+        message: "You were low on time outdoors today. Try to get outside!"
+    },
+    {
+        threshold: idealValue / 3,
+        message: "You were almost halfway there. Keep it up! "
+    },
+    {
+        threshold: idealValue / 2,
+        message: "You almost made your goal! Great job!"
+    },
+    {
+        threshold: idealValue,
+        message: "Congratulations! You did it!"
+    }
+];
 
 (async() => {
     const group = d3.select('svg.sunlight-slider')
@@ -17,7 +36,7 @@ const dateToDisplay = new Date(2022, 6, 5);
     const minutesSunlight = await getMinutesSunlight();
 
     const scale = d3.scaleLinear()
-        .domain([maxValue, 0])
+        .domain([idealValue, 0])
         .range([0, height])
 
     // title
@@ -53,8 +72,17 @@ const dateToDisplay = new Date(2022, 6, 5);
         .append('text')
         .attr('transform', `translate(${padding/2},${height/2})rotate(-90)`)
         .text('Minutes of Sunlight')
-        .attr('class', 'title')
+        .attr('class', 'title');
 
+    // display message based on how much of the sun is filled
+    let i = 0;
+    let message = ""
+    while (minutesSunlight > messages[i].threshold) {
+        message = messages[i].message;
+        i++;
+    }
+
+    document.querySelector('p#message').innerText = message;
 })();
 
 async function getMinutesSunlight() {

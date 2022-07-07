@@ -6,3 +6,15 @@ text {
 .title {
     text-anchor: middle;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.message {
+    min-width: 40%;
+
+}
