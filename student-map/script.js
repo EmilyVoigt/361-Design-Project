@@ -20,37 +20,37 @@ const pointsToPlot=[
         name: "e5-1",
         x: 0.26,
         y: 0.58,
-        desc: "By 8:30, they take a seat for their morning lectures. The student stays in the same classroom for each of their lectures. There are 10 minute breaks in between each class, which they use to stretch their legs, or catch up on work."
+        desc: "By 8:30AM, they take a seat for their morning lectures, which all take place in the same room. There are 10 minute breaks in between each lecture, which they use to stretch their legs, or catch up on work."
     },
     {
         name: "picnic",
         x: 0.35,
         y: 0.23,
-        desc: "At 12:30, the student heads to the picnic tables outside the DP Library to eat lunch with friends. This is the first time they have been outside since entering E5."
+        desc: "At 12:30PM, the student heads to the picnic tables outside the DP Library to eat lunch with friends. This is the first time they have been outside since entering E5."
     },
     {
         name: "e5-2",
         x: 0.5, 
         y: 0.52,
-        desc: "Afternoon classes resume at 1:30. The student takes their seat back in the same classroom for the afternoon."
+        desc: "Afternoon classes resume at 1:30pm. The student returns to their seat in the same classroom for the afternoon."
     },
     {
         name: "dc",
         x: 0.62,
         y: 0.34,
-        desc: "The student heads to the DC library to do some work. It’s busy, and difficult to find a seat, especially near a window. The individual study desks are quiet, and once the student finds a desk, they begin their work."
+        desc: "At 4:00pm, the student heads to the DC Library to study. It’s busy, and difficult to find a seat, especially near a window. The individual study desks are quiet, and once the student finds a desk, they begin their work."
     },
     {
         name: "pac",
         x: 0.75,
         y: 0.75,
-        desc: "The student attends a fitness class at PAC. The atmosphere here is brighter, louder, and more energetic. There is music playing in the fitness class, and the activity feels good after sitting down for so long"
+        desc: "At 5:30PM, the student attends a fitness class at PAC. The atmosphere here is brighter, louder, and more energetic. There is music playing in the fitness class, and the activity feels good after sitting down for so long."
     },
     {
         name: "home-2",
         x: 0.94,
         y: 0.32,
-        desc: "The student returns home. The walk home is slower and calmer than the walk to school, and the student is less rushed, enjoying the time outside."
+        desc: "At 7:00PM, the student returns home. The walk home is slower and calmer than the walk to school, and the student is less rushed, enjoying the time outside."
     }
 ];
 
