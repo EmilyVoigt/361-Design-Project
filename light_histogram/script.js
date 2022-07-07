@@ -132,9 +132,9 @@ const data = [
     const recData = [
         {
             height: 400,
-            x1: 20,
-            x2:25,
-            centre: 22.5,
+            x1: 500,
+            x2:750 ,
+            centre: 625,
             strang:"Recommended value"
         }
     ];
@@ -155,8 +155,7 @@ document.querySelector(".light_histogram").append(
             grid: true
           },
         marks: [
-          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:1.0}),
-          Plot.text(recData,{x: "centre", y: "height", fill: "white", fillOpacity:1.0, text: d=> d.strang}),
+          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
           Plot.rectY(insideData, Plot.binX({y: "count"}, {x: "light", fill: 'white', fillOpacity:0.8})),
           Plot.ruleY([0])
         ]
