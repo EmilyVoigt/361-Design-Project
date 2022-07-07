@@ -1,4 +1,5 @@
-// mostly getters
+// get data set of only light and temperature
+//return array of filtered data 
 const getLightTimeData = (data) => {
   const finalData = [];
   data.forEach((point) => {
@@ -7,6 +8,8 @@ const getLightTimeData = (data) => {
   return finalData;
 };
 
+//get data set of only time and temperature 
+//return array of filtered data 
 const getTempTimeData = (data) => {
   const finalData = [];
   data.forEach((point) => {
@@ -15,6 +18,8 @@ const getTempTimeData = (data) => {
   return finalData;
 };
 
+//get data set of only humidity and time data
+//return array of filtered data 
 const getHumidityTimeData = (data) => {
   const finalData = [];
   data.forEach((point) => {
