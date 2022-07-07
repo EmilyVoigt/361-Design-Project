@@ -23,9 +23,10 @@ document.querySelector(".temp_histogram").append(
             grid: true
           },
         marks: [
-          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "pink", inset:0 , fillOpacity:0.3}),
-          Plot.text(recData,{x: "centre", y: "height", fill: "black", text: d=> d.strang}),
-          Plot.rectY(testData, Plot.binX({y: "count"}, {x: "temp", fill: "green", fillOpacity:0.8})),
+    
+          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
+          Plot.text(recData,{x: 22, y: 350, fill: "white", font:"Noto Sans", text: d=> d.strang}),
+          Plot.rectY(testData, Plot.binX({y: "count"}, {x: "temp", fill: "white", fillOpacity:0.8, inset: 0})),
           Plot.ruleY([0])
         ]
       })
