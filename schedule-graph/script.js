@@ -27,7 +27,7 @@ const axisLabels = [
 
 const svg = d3
   .select("svg.graph")
-  .attr("width", imageWidth + margin.left + margin.right + 100)
+  .attr("width", imageWidth + margin.left + margin.right)
   .attr("height", imageHeight + margin.top + margin.bottom + 5 * spaceBetweenGraphs);
 
 const imageContainer = svg
