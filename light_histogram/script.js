@@ -141,14 +141,14 @@ const data = [
 (async()=>{
     const testData = await getCsvData();
     const insideData = testData.filter((data) => data.uv <= 1);
-
+    const numberOfRows = data.length - 1;
 
 document.querySelector(".light_histogram").append(
     Plot.plot({
         x: {
             grid: true,
-            label: "Light"
-            
+            label: "Light (log scale)",
+            type: "log"          
           },
           y: {  
             label: "Frequency",
@@ -156,11 +156,38 @@ document.querySelector(".light_histogram").append(
           },
         marks: [
           Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
-          Plot.rectY(insideData, Plot.binX({y: "count"}, {x: "light", fill: 'white', fillOpacity:0.8})),
+          Plot.rectY(insideData, Plot.normalizeY(Plot.binX({y: "count"}, {x:"light", fill: 'white', fillOpacity:0.8}))),
           Plot.ruleY([0])
         ]
       })
 )
+
 })();
 
-
+/*Plot.plot({
+    marks: [
+      Plot.line(
+        data,
+        Plot.normalizeY(
+          "last",
+          Plot.binX(
+            { y: "sum" },
+            {
+              x: "date",
+              y: "price_in_usd",
+              stroke: "brand",
+              sort: "date",
+              thresholds: d3.utcDay
+            }
+          )
+        )
+      )
+    ],
+    y: {
+      label: "Price normalized by last value"
+    },
+    height: 200,
+    width: 802, 
+    color: { legend: true }
+  })
+*/
