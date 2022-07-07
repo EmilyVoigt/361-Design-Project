@@ -13,6 +13,10 @@
     --lightgrey: #9499A9;
     --orange: #ED8000;
     --green: #90BBA9;
+    --sun-dashboard-background: #FEF9EF;
+    --sun-dashboard-temperature: #FE6973;
+    --sun-dashboard-humidity: #227C9D;
+    --sun-dashboard-light: #FFCB77;
 
     /* globals for radial line graph - do not remove */
     --radialHalfHeight: 325px;
@@ -27,7 +31,6 @@ body{
     width: min-content;
     margin: auto;
 }
-
 body.admin{
 background-color: #0E1116;
 color: #ffffff;
@@ -40,5 +43,6 @@ body.schedule{
 }
 
 body.sun{
+    background-color: var(--sun-dashboard-background);
     font-family: 'Novo Sans', sans-serif;
 }
