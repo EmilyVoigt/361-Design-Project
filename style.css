@@ -8,6 +8,10 @@
     --lightgrey: #9499A9;
     --orange: #ED8000;
     --green: #90BBA9;
+
+    /* globals for radial line graph - do not remove */
+    --radialHalfHeight: 325px;
+    --radialHalfWidth: 325px;
 }
 
 
@@ -17,4 +21,20 @@ body{
     height: 100%;
     width: min-content;
     margin: auto;
+}
+
+body.admin{
+background-color: #0E1116;
+color: #ffffff;
+font-family: "Times New Roman", "Times", serif !important;
+
+}
+
+body.schedule{
+
+
+}
+
+body.sun{
+
 }

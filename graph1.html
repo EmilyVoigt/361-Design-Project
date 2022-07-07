@@ -8,20 +8,22 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="graph1/z_style.css" />
   </head>
-  <!--HOST COMMAND:  python3 -m http.server 8080 -->
   <body>
-    <h1>Light vs Time in Class</h1>
+    <h1>Light Levels and Time in Class</h1>
     <svg class="graph"></svg>
 
-    <!-- <select>
+    <!-- select menu is no longer being used for UX reasons, but option remains to reimpliment it
+        <select>
             <option value=0>Monday</option>
             <option value=1>Tuesday</option>
             <option value=2>Wednesday</option>
             <option value=3>Thursday</option>
             <option value=4>Friday</option>
         </select> -->
+
     <div class = "info">
       <div class="legend">
+        <h2>Legend:</h2>
         <div class="legendLine">
           <div class="icon avgicon"></div>
           <p>Average Light Per Hour</p>

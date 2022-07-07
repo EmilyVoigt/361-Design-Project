@@ -1,3 +1,5 @@
+// array storing scheduled class times for each day of the week
+
 const classTimes = [
     {
       morning: { start: { hour: 8, minute: 30 }, end: { hour: 12, minute: 00 } },

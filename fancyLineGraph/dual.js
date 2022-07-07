@@ -7,36 +7,34 @@ const getUvTimeData = (data) => {
     return finalData;
 };
 
-// create an array containing time and UV pairs for time outside only (to plot UV blocks on graph)
+// create an array of start and end times when UV values were > 1
 const getTimesOutside = (data) => {
-    const outsideData = data.filter(point => point.uv > 1);
-    console.log(outsideData);
-    return outsideData;
-};
+    let outsideTimeBlocks = [];
+    let uvStartTime = null;
+    data.forEach((point) => {
+        // if we are not in an outside block, then check if one has started
+        if (uvStartTime == null && point.uv > 1) {
+            uvStartTime = point.time;
+        }
+        // if we are in an outside block, then check if it has ended)
+        if (uvStartTime != null && point.uv <= 1) {
+            // add block to the array
+            outsideTimeBlocks.push({
+                start: uvStartTime,
+                end: point.time
+            });
+            uvStartTime = null;
+        }
+    });
 
-/* function checkUV(outsideArray) {
-    outsideArray.forEach((point) => {
-        if (point.time == data.time) {
-            svg.append("rect")
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('width', 90)
-            .attr("class", "uvBlocks")
-            .style('fill', "yellow")
-            .style('fill-opacity', 0.3)
-            .attr('height', height);        }
-      });
-  } */
+    return outsideTimeBlocks;
+};
 
 (async () => {
     // get data!! 
     const data = await getCsvData()
-    console.log(data); //check upload is correct
     const uvTimeData = getUvTimeData(data);
-    console.log(uvTimeData);
-    const outsideArray = getTimesOutside(uvTimeData);
-    console.log(outsideArray);
-
+    const outsideTimeBlocks = getTimesOutside(uvTimeData);
 
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 50, bottom: 40, left: 50},
@@ -102,7 +100,6 @@ const getTimesOutside = (data) => {
         .attr("text-anchor", "start")
         .text("Temperature (°C)"));
 
-        
     // Add the humidity axis
     svg.append("g")
         .attr("class", "axisGreen")
@@ -116,35 +113,12 @@ const getTimesOutside = (data) => {
         .text("% Humidity"));
 
     // Add the UV blocks
-    var uvWidth = 60;
-    
-    //data.forEach(checkUV(data, outsideArray));
-   // while (data.time == outsideArray.time) {
-    svg.append("rect")
-        .attr('x', 267)
-        .attr('y', 0)
-        .attr('width', uvWidth)
-        .attr("class", "uvBlocks")
-        .style('fill', "yellow")
-        .style('fill-opacity', 0.3)
-        .attr('height', height);
-
-    svg.append("rect")
-        .attr('x', 20)
-        .attr('y', 0)
-        .attr('width', 20)
-        .attr("class", "uvBlocks")
-        .style('fill', "yellow")
-        .style('fill-opacity', 0.3)
-        .attr('height', height);
-
-    svg.append("rect")
-        .attr('x', 600)
-        .attr('y', 0)
-        .attr('width', 70)
-        .attr("class", "uvBlocks")
-        .style('fill', "yellow")
-        .style('fill-opacity', 0.3)
-        .attr('height', height);
-
+    svg.selectAll('rect')
+        .data(outsideTimeBlocks)
+        .enter()
+        .append('rect')
+        .attr('x', (data) => x(data.start))
+        .attr('width', (data) => x(data.end) - x(data.start))
+        .attr('height', height)
+        .attr('class', 'outside-blocks');
 })();
