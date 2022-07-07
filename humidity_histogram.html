@@ -6,12 +6,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Light Histogram</title>
 		<link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="light_histogram/z_style.css">
+        <link rel="stylesheet" href="humidity_histogram/z_style.css">
     </head>
     
     <body class="admin">
         <svg width = 1000 height = 1000 class = "humidity_histogram"></svg>
-
+        <div class = "info">
+            <div class="legend">
+              <div class="legendLine">
+                <div class="icon recicon"></div>
+                <p>Recommended Range []</p>
+              </div>
+            </div>
+          </div>
         <script src = "d3.min.js"></script>
         <script src = "global.js"></script>
         <script src="https://unpkg.com/@observablehq/stdlib@3"></script>
