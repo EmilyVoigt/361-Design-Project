@@ -1,7 +1,5 @@
 body{
-    font-family: Arial, Helvetica, sans-serif;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    font-family: "Noto Sans";
 }
 
 
@@ -14,7 +12,6 @@ rect.uvBlocks{
 
 .line {
     fill: none;
-    stroke: steelblue;
     stroke-width: 2px;
 }
 
@@ -25,12 +22,12 @@ path {
 }
 
 .humidline {
-    stroke: var(--green);
+    stroke: #25b3be;
     stroke-width: 2px;
 }
 
 .templine {
-    stroke: var(--orange);
+    stroke: #Ff800c;
     stroke-width: 2px;
 }
 
@@ -63,10 +60,63 @@ path {
     font-size: 14;
 }
 
-.y.axisRight text {
-    fill: orange;
+.info{
+    position: fixed;
+    top: 20px;
+    left: 10%;
+    font-size: 12px;
+    background-color: var(--background);
+    max-width: 150px;
+}
+.hoverInfo{
+    font-size: 14px;
 }
 
-.y.axisLeft text {
-    fill: steelblue;
+.legend{
+    padding: 10px;
+}
+
+.legendLine{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon{
+    width:10px;
+    height:10px;
+    margin-right: 8px;
+    min-width:10px;
+}
+
+.icon.tempicon{
+    background-color: #Ff800c;
+    border-radius: 8px;
+}
+
+.icon.lighticon{
+    background-color: var(--yellow);
+}
+
+.icon.humidicon{
+    background-color: #25b3be;
+    border-radius: 8px;
+}
+
+/* set media query to prevent legend and map from overlapping */
+
+@media (max-width:1148px) {
+    .info{
+        left: 2%;
+    }
+    
+}
+
+@media(max-width: 940px){
+    .info{
+        position: relative;
+        left: 0%;
+        max-width: 300px;
+    }
+
 }
