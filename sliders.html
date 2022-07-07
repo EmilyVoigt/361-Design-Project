@@ -7,17 +7,31 @@
 		<title>361 Design Project</title>
 		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="sliders/z_style.css">
+        <link rel="stylesheet" href="sunlight-slider/z_style.css">
     </head>
     
-    <body>
+    <body class="sun">
         <!-- ALL OF OUR BODY CONTENT GOES HERE -->
         <!-- TO MAKE A NEW PAGE, CREATE A NEW HTML FILE -->
         <!--HOST COMMAND:  python3 -m http.server --cgi 8080 -->
         <!-- NORMAL COMMAND (NON MAC) : python -m SimpleHTTPServer 8080 -->
-        <svg class="sliders"></svg>
+        <div class="container">
+            <div class="sunlight-slider-container">
+                <div class="graph">
+                    <svg class="sunlight-slider" width="500" height="500"></svg>
+                </div>
+                <div class="message">
+                    <p id="message"></p>
+                </div>
+            </div>
+            <div class="temp-hum-slider-container">
+                <svg class="sliders"></svg>
+            </div>
+        </div>
 		
         <script src = "d3.min.js"></script>
         <script src = "global.js"></script>
         <script src = "sliders/script.js"> </script>
+        <script src = "sunlight-slider/script.js"></script>
     </body>
 </html>

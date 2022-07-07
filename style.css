@@ -1,3 +1,8 @@
+@font-face{
+    font-family: Novo Sans;
+    src: url('fonts/NotoSans-Bold.ttf'), url('fonts/NotoSans-Regular.ttf') 
+}
+
 :root{
     /* CSS VARIABLES TO MAKE GRAPHS COHESIVE */
     --background: #ffffff;
@@ -36,5 +41,5 @@ body.schedule{
 }
 
 body.sun{
-
+    font-family: 'Novo Sans', sans-serif;
 }
