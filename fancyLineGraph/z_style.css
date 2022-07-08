@@ -2,6 +2,12 @@ body{
     font-family: "Noto Sans";
 }
 
+h1.fancyLine{
+    font-size: 14px;
+    text-align: center;
+
+}
+
 
 rect.outside-blocks{
     fill: var(--sun-dashboard-light);
