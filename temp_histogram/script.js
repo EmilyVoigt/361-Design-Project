@@ -4,7 +4,7 @@ console.log("temperature histogram loaded");
 const recData = [
         {
             x1: 21,
-            x2:26,
+            x2:25,
         }
 ];
 
