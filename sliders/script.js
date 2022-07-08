@@ -9,7 +9,7 @@ const slidersHeight = 25;
 const tempGraphAttributes = {
     minValue: 0,
     minIdealValue: 21,
-    maxIdealValue: 26,
+    maxIdealValue: 25,
     maxValue: 38,
     title: "Average Temperature",
     xAxisTitle: 'Temperature (°C)',
