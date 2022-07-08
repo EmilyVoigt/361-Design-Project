@@ -11,7 +11,7 @@ const recData = [
 (async()=>{
     const testData = await getCsvData();
     const insideData = testData.filter((data) => data.uv <= 1);
-    const numberOfRows = data.length - 1;
+    const numberOfRows = testData.length - 1;
 
 //append plot to web page
 document.querySelector(".light_histogram").append(
@@ -24,17 +24,18 @@ document.querySelector(".light_histogram").append(
             type: "log"          
           },
           y: {  
-            label: "Frequency",
+            label: "Total Minutes",
             grid: true
           },
         marks: [
         //Add and format data on graph, first rect is recommended value shaded area, 
         //second uses built in binning process to create histogram
-          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
-          Plot.rectY(insideData, Plot.normalizeY(Plot.binX({y: "count"}, {x:"light", fill: 'white', fillOpacity:0.8}))),
+          Plot.rectY(recData,{x1: "x1", x2: "x2", y: 500, fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
+          Plot.rectY(insideData, Plot.binX({y: "count"}, {x:"light", fill: 'white', fillOpacity:0.8})),
           Plot.ruleY([0])
         ]
       })
 )
 
 })();
+

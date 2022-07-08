@@ -6,7 +6,7 @@ console.log("humidity histogram loaded");
             x2:50,
         }
     ];
-    
+
 //Call async function to get csv data file
 (async()=>{
     const testData = await getCsvData();
@@ -20,13 +20,13 @@ document.querySelector(".humidity_histogram").append(
             label: "Humidity"
           },
           y: {  
-            label: "Frequency",
+            label: "Total Minutes",
             grid: true
           },
         marks: [
           //Add and format data on graph, first rect is recommended value shaded area, 
           //second uses built in binning process to create histogram
-          Plot.rectY(recData,{x1: "x1", x2: "x2", y: "height", fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
+          Plot.rectY(recData,{x1: "x1", x2: "x2", y: 1200, fill: "#2ECC71", inset:0 , fillOpacity:0.3}),
           Plot.rectY(testData, Plot.binX({y: "count"}, {x: "humidity", fill: "white", fillOpacity:0.8})),
           Plot.ruleY([0])
         ]
