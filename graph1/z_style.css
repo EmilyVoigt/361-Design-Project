@@ -91,7 +91,7 @@ select{
     top: 20px;
     left: 10%;
     font-size: 12px;
-    background-color: var(--background);
+    background-color: var(--sun-dashboard-background);
     max-width: 150px;
 }
 .hoverInfo{
