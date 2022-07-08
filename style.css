@@ -37,11 +37,6 @@ color: #ffffff;
 font-family: "Noto Sans", sans-serif;
 }
 
-body.schedule{
-
-
-}
-
 body.sun{
     background-color: var(--sun-dashboard-background);
     font-family: 'Novo Sans', sans-serif;
