@@ -1,4 +1,4 @@
-var theForm = document.forms["calc_form"];
+var theForm = document.forms["calc_form1"];
 
 function getEyeheight() {
     var eyeheight = theForm.elements["eyeheight"];
@@ -12,7 +12,7 @@ function getEyeheight() {
 }
 
 function getDistance() {
-    var dist = theForm.elements["eyeheight"];
+    var dist = theForm.elements["dist"];
     var distvalue =0;
     //If the textbox is not blank
     if(dist.value!="")
@@ -29,6 +29,6 @@ function calculateHeight () {
 
     height = 2*dist + eyeheight;
 
-    document.getElementById('height').innerHTML = "Height of Object: "+height + " cm";
+    document.getElementById('height').innerHTML = height + " cm";
 
 }
