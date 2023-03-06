@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<div style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">
+    <h1>Calculating your object height!</h1>
+    <p>Please input your measured eye height and distance to object below.</p>
+    <form id="calc_form1" action="" onsubmit="return false;">
+        <div>
+            <label for="eyeheight">Eye Height (cm):</label><br>
+            <input type="text" id="eyeheight" name="eyeheight"><br>
+        </div>
+        <div style="padding-top:10px">
+            <label for="dist">Distance to tree (cm):</label><br>
+            <input type="text" id="dist" name="dist">
+        </div>
+        <div style="padding-top: 10px">
+            <input type="submit" value="Submit" onclick="calculateHeight()">
+        </div>
+    </form>
+    <p>Calculated object height for Clinometer 1:</p>
+    <div id="height"></div>
+</div>
+<script src="height_calc1.js"></script>
+</html>
