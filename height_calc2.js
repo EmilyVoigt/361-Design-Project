@@ -27,7 +27,7 @@ function calculateHeight () {
     eyeheight = getEyeheight();
     angle = getAngle();
 
-    height = 200*(Math.tan(angle)) + eyeheight;
+    height = 200*(Math.tan(angle*(Math.PI/180))) + eyeheight;
 
 
     document.getElementById('height').innerHTML = height + " cm";
